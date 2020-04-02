@@ -1,0 +1,61 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+	<changeSet author="prashant (generated)" id="1581521125420-1">
+		<createTable tableName="EMPLOYEE_TYPE">
+			<column name="ID" type="NUMBER(19,0)">
+				<constraints primaryKey="true"
+					primaryKeyName="PK_EMPLOYEE_TYPE" />
+			</column>
+			<column name="EMP_TYPE" type="VARCHAR(255 CHAR)" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet author="prashant (generated)" id="1581521125420-2">
+		<loadData file="db/data/emp_type_masterdata.csv"
+			tableName="EMPLOYEE_TYPE">
+		</loadData>
+	</changeSet>
+
+	<changeSet author="prashant (generated)" id="1581521125420-3">
+		<createSequence maxValue="999999999999999"
+			sequenceName="EMPLOYEE_SEQ" startValue="1" />
+	</changeSet>
+
+
+	<changeSet author="prashant (generated)" id="1581521125420-4">
+		<createTable tableName="EMPLOYEE">
+			<column name="ID" type="NUMBER(19,0)">
+				<constraints primaryKey="true"
+					primaryKeyName="PK_EMPLOYEE" />
+			</column>
+			<column name="CREATED_DATE_TIME" type="TIMESTAMP(6)" />
+			<column name="MODIFIED_DATE_TIME" type="TIMESTAMP(6)" />
+			<column name="VERSION" type="INTEGER">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="FIRST_NAME" type="VARCHAR(255 CHAR )" />
+			<column name="LAST_NAME" type="VARCHAR(255 CHAR)" />
+			<column name="SALARY" type="NUMBER(19,4)" />
+			<column name="FK_EMP_TYPE" type="NUMBER(19,0)" />
+
+		</createTable>
+	</changeSet>
+
+	<changeSet author="prashant (generated)" id="1581521125420-5">
+		<addForeignKeyConstraint
+			baseColumnNames="FK_EMP_TYPE" baseTableName="EMPLOYEE"
+			constraintName="FK_EMP_EMP_TYPE" deferrable="false"
+			initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+			referencedColumnNames="ID" referencedTableName="EMPLOYEE_TYPE"
+			validate="true" />
+	</changeSet>
+
+
+
+</databaseChangeLog>

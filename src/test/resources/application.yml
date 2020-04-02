@@ -1,0 +1,66 @@
+server:
+  port: ${SERVICE_PORT:7001}
+
+elasticsearch:
+  clustername: elasticsearch
+  host: localhost
+  port: 9300
+  httpport: 9200
+#Datasource configuration
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    properties:
+      hibernate:
+         jdbc:
+            batch_size: 20
+         order_inserts: true 
+    
+  datasource:
+    url: jdbc:h2:mem:EMP_MANAGEMENT;DB_CLOSE_DELAY=-1;IGNORECASE=true;
+    username: EMP_MANAGEMENT
+    password: emp1234
+    
+#Liquibase Configuration
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    
+  data:
+    elasticsearch:
+      properties:
+        index:
+          search:
+            slowlog:
+              threshold:
+                query:
+                  info: 1ms
+       
+security:
+  ignored:
+    - /swagger-ui.html
+    - /webjars/**
+    - /swagger-resources/**
+    - /images/**
+    - /css/**
+    - /v2/**
+    - /actuator/**
+
+      
+logging:
+   level:
+      org:
+         springframework:
+            web: INFO
+            data:
+              elasticsearch:
+                core: DEBUG
+                index:
+                  search:
+                    showlog:
+                      query: INFO
+         hibernate: INFO
+
+        

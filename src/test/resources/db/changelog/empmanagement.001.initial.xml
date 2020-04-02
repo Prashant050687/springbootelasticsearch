@@ -1,0 +1,82 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+	<changeSet author="prashant (generated)" id="1581521125420-1">
+		<createTable tableName="CONTRACT_TYPE">
+			<column name="ID" type="bigint">
+				<constraints primaryKey="true"
+					primaryKeyName="PK_CONTRACT_TYPE" />
+			</column>
+			<column name="TYPE_OF_CONTRACT" type="VARCHAR(255 )" />
+		</createTable>
+	</changeSet>
+
+	<changeSet author="prashant (generated)" id="1581521125420-2">
+		<loadData file="db/data/contract_type_masterdata.csv"
+			tableName="CONTRACT_TYPE">
+		</loadData>
+	</changeSet>
+
+	<changeSet author="prashant (generated)" id="1581521125420-3">
+		<createSequence maxValue="999999999999999"
+			sequenceName="EMPLOYEE_SEQ" startValue="1" />
+	</changeSet>
+
+
+	<changeSet author="prashant (generated)" id="1581521125420-4">
+		<createTable tableName="EMPLOYEE">
+			<column name="ID" type="bigint">
+				<constraints primaryKey="true"
+					primaryKeyName="PK_EMPLOYEE" />
+			</column>
+			<column name="CREATED_DATE_TIME" type="TIMESTAMP(6)" />
+			<column name="MODIFIED_DATE_TIME" type="TIMESTAMP(6)" />
+			<column name="VERSION" type="INTEGER">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="FIRST_NAME" type="VARCHAR(255 )" />
+			<column name="LAST_NAME" type="VARCHAR(255 )" />
+			<column name="EMPLOYEE_TYPE" type="VARCHAR(255 )" />
+			<column name="SALARY" type="DOUBLE(4)" />
+			<column name="FK_CONTRACT_TYPE" type="bigint" />
+
+		</createTable>
+	</changeSet>
+
+	<changeSet author="prashant (generated)" id="1581521125420-5">
+		<addForeignKeyConstraint
+			baseColumnNames="FK_CONTRACT_TYPE" baseTableName="EMPLOYEE"
+			constraintName="FK_EMP_CONTRACT_TYPE" deferrable="false"
+			initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+			referencedColumnNames="ID" referencedTableName="CONTRACT_TYPE"
+			validate="true" />
+	</changeSet>
+
+	<changeSet author="prashant (generated)" id="1581521125420-6">
+		<createTable tableName="PROJECT_LEAD">
+			<column name="ID" type="bigint">
+				<constraints primaryKey="true"
+					primaryKeyName="PK_PROJECT_LEAD" />
+			</column>
+
+			<column name="PROJECT_NAME" type="VARCHAR(255 )" />
+			<column name="REPORTING_EMP_COUNT" type="INTEGER" />
+
+		</createTable>
+	</changeSet>
+
+	<changeSet author="prashant (generated)" id="1581521125420-7">
+		<addForeignKeyConstraint baseColumnNames="ID"
+			baseTableName="PROJECT_LEAD" constraintName="FK_PROJLEAD_EMPLOYEE"
+			deferrable="false" initiallyDeferred="false" onDelete="RESTRICT"
+			onUpdate="RESTRICT" referencedColumnNames="ID"
+			referencedTableName="EMPLOYEE" validate="true" />
+	</changeSet>
+
+
+</databaseChangeLog>
