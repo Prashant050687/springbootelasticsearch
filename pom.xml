@@ -111,6 +111,12 @@
             <artifactId>jna</artifactId>
             <scope>test</scope>
         </dependency>
+        
+        <dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc7</artifactId>
+			<version>${oracle.version}</version>
+		</dependency>
 
 	</dependencies>
 

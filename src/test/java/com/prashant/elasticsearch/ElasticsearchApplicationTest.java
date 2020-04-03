@@ -15,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prashant.elasticsearch.domain.Employee;
 import com.prashant.elasticsearch.domain.EmployeeType;
 import com.prashant.elasticsearch.domain.ProjectLeader;
@@ -39,6 +41,9 @@ class ElasticsearchApplicationTest {
 
   @Autowired
   ProjectLeaderService projectLeaderService;
+
+  @Autowired
+  ObjectMapper objectMapper;
 
   @SuppressWarnings("rawtypes")
   @Autowired
@@ -157,6 +162,12 @@ class ElasticsearchApplicationTest {
     conditions.add(filterCondition4);
 
     esSearchFilter.setConditions(conditions);
+    try {
+      System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(esSearchFilter));
+    } catch (JsonProcessingException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     return esSearchFilter;
   }
 

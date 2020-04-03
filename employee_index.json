@@ -1,0 +1,42 @@
+{
+  "aliases": {},
+  "mappings": {
+    "employee": {
+      "properties": {
+        "id": {
+          "type": "keyword"
+        },
+        "firstName": {
+          "type": "text"
+        },
+        "lastName": {
+          "type": "text"
+        },
+        "salary": {
+          "type": "double"
+        },
+        "createdDate": {
+          "type": "date"
+        },
+        "employeeType": {
+          "type": "text"
+        },
+        "contractType": {
+          "type": "nested",
+          "properties": {
+            "id": {
+              "type": "long"
+            },
+            "name": {
+              "type": "text"
+            }
+          }
+        }
+      }
+    }
+  },
+  "settings": {
+    "number_of_shards": "2",
+    "number_of_replicas": "1"
+  }
+}

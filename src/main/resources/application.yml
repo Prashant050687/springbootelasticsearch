@@ -4,7 +4,8 @@ server:
 elasticsearch:
   clustername: elasticsearch
   host: localhost
-  port: 9200
+  port: 9300
+  indexName: employee_index
 
 #Datasource configuration
 spring:
@@ -22,13 +23,23 @@ spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     url: ${DATABASE_URL:jdbc:oracle:thin:@localhost:1521:XE}
-    username: EMP_MANAGEMENT
-    password: emp1234
+    username: EMPLOYEE_ES
+    password: test1234
     
 #Liquibase Configuration
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
 
+  data:
+    elasticsearch:
+      properties:
+        index:
+          search:
+            slowlog:
+              threshold:
+                query:
+                  info: 1ms
+       
 security:
   ignored:
     - /swagger-ui.html
@@ -48,5 +59,8 @@ logging:
             data:
               elasticsearch:
                 core: DEBUG
+                index:
+                  search:
+                    showlog:
+                      query: INFO
          hibernate: INFO
-        
