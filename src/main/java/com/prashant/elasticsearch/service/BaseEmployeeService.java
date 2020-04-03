@@ -26,6 +26,7 @@ public class BaseEmployeeService {
     employee.setSalary(employeeDTO.getSalary());
     employee.setContractType(employeeDTO.getContractType());
     employee.setEmployeeType(employeeDTO.getEmployeeType());
+    employee.setCreatedDate(employeeDTO.getCreatedDate());
     return employee;
   }
 

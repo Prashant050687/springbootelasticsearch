@@ -1,12 +1,15 @@
 package com.prashant.elasticsearch.dto;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import com.prashant.elasticsearch.domain.EmployeeType;
 
@@ -34,4 +37,7 @@ public class EmployeeES implements Serializable {
 
   @Enumerated(EnumType.STRING)
   EmployeeType employeeType;
+
+  @Field(type = FieldType.Date)
+  LocalDate createdDate;
 }

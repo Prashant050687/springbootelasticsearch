@@ -1,7 +1,7 @@
 package com.prashant.elasticsearch.domain;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
@@ -21,18 +21,18 @@ public abstract class BaseAuditEntity implements Serializable {
   @Version
   int version;
 
-  LocalDateTime modifiedDateTime;
+  LocalDate modifiedDate;
 
-  LocalDateTime createdDateTime;
+  LocalDate createdDate;
 
   @PrePersist
   public void prePersist() {
-    this.createdDateTime = LocalDateTime.now();
+    this.createdDate = LocalDate.now();
   }
 
   @PreUpdate
   public void preUpdate() {
-    this.modifiedDateTime = LocalDateTime.now();
+    this.modifiedDate = LocalDate.now();
   }
 
 }

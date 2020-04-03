@@ -5,7 +5,7 @@ elasticsearch:
   clustername: elasticsearch
   host: localhost
   port: 9300
-  httpport: 9200
+  indexName: employee_index
 #Datasource configuration
 spring:
   jpa:

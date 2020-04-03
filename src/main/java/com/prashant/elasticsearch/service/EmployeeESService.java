@@ -3,8 +3,9 @@ package com.prashant.elasticsearch.service;
 import java.util.List;
 
 import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
@@ -13,9 +14,12 @@ import org.springframework.stereotype.Service;
 import com.prashant.elasticsearch.domain.exception.ResourceNotFoundException;
 import com.prashant.elasticsearch.dto.EmployeeES;
 import com.prashant.elasticsearch.es.repo.EmployeeESRepo;
+import com.prashant.elasticsearch.filter.dto.ESSearchFilter;
+import com.prashant.elasticsearch.service.helper.FilterBuilderHelper;
 
 @Service
 public class EmployeeESService {
+
   private final EmployeeESRepo employeeESRepo;
 
   @Autowired
@@ -43,13 +47,35 @@ public class EmployeeESService {
     employeeESRepo.delete(employee);
   }
 
-  public List<EmployeeES> searchMultiField(String firstName, String lastName) {
-    QueryBuilder query = QueryBuilders.boolQuery()
-      .must(QueryBuilders.matchQuery("firstName", firstName))
-      .must(QueryBuilders.matchQuery("lastName", lastName));
-
+  /**
+   * Returns list of records matching the search criteria
+   * @param esSearchFilter
+   * @return List<EmployeeES>
+   */
+  public List<EmployeeES> searchEmployeeByCriteria(ESSearchFilter esSearchFilter) {
+    QueryBuilder query = FilterBuilderHelper.build(esSearchFilter);
     NativeSearchQuery nativeSearchQuery = new NativeSearchQueryBuilder().withQuery(query).build();
+
     return elasticSearchTemplate.queryForList(nativeSearchQuery, EmployeeES.class);
+  }
+
+  /**
+   * Returns pageable response based on the search criteria
+   * @param esSearchFilter
+   * @param pageable
+   * @return Page<EmployeeES>
+   */
+  public Page<EmployeeES> searchEmployeeByCriteria(ESSearchFilter esSearchFilter, Pageable pageable) {
+    QueryBuilder query = FilterBuilderHelper.build(esSearchFilter);
+    NativeSearchQuery nativeSearchQuery = null;
+    if (null != pageable) {
+      nativeSearchQuery = new NativeSearchQueryBuilder().withPageable(pageable).withQuery(query).build();
+    } else {
+      nativeSearchQuery = new NativeSearchQueryBuilder().withQuery(query).build();
+    }
+
+    return employeeESRepo.search(nativeSearchQuery);
+
   }
 
   /*

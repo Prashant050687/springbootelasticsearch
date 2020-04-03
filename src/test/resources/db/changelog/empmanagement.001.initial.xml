@@ -33,8 +33,8 @@
 				<constraints primaryKey="true"
 					primaryKeyName="PK_EMPLOYEE" />
 			</column>
-			<column name="CREATED_DATE_TIME" type="TIMESTAMP(6)" />
-			<column name="MODIFIED_DATE_TIME" type="TIMESTAMP(6)" />
+			<column name="CREATED_DATE" type="TIMESTAMP(6)" />
+			<column name="MODIFIED_DATE" type="TIMESTAMP(6)" />
 			<column name="VERSION" type="INTEGER">
 				<constraints nullable="false" />
 			</column>

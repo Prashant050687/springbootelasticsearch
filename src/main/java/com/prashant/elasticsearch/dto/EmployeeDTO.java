@@ -7,9 +7,11 @@ import javax.validation.constraints.NotNull;
 import com.prashant.elasticsearch.domain.EmployeeType;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class EmployeeDTO implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class EmployeeDTO extends BaseAuditDTO implements Serializable {
 
   /**
    * 
