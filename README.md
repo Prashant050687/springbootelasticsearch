@@ -34,28 +34,30 @@
 		to EMPLOYEE_ES; 
 
 - Sample Search Json
-
+```json
 {
-		  "conditions" : [ {
-			"fieldName" : "employeeType",
-			"operation" : "EQ",
-			"value1" : "PROJECT_LEADER",
-			"value2" : null
-		  }, {
-			"fieldName" : "firstName",
-			"operation" : "EQ",
-			"value1" : "Cristiano",
-			"value2" : null
-		  }, {
-			"fieldName" : "firstName",
-			"operation" : "EQ",
-			"value1" : "Project",
-			"value2" : null
-		  }, {
-			"fieldName" : "salary",
-			"operation" : "GT",
-			"value1" : "2500",
-			"value2" : null
-		  } ]
-		}
-		
+  "conditions" : [ {
+	"fieldName" : "employeeType",
+	"operation" : "EQ",
+	"value1" : "PROJECT_LEADER",
+	"value2" : null
+  }, {
+	"fieldName" : "firstName",
+	"operation" : "EQ",
+	"value1" : "Cristiano",
+	"value2" : null
+  }, {
+	"fieldName" : "firstName",
+	"operation" : "EQ",
+	"value1" : "Project",
+	"value2" : null
+  }, {
+	"fieldName" : "salary",
+	"operation" : "GT",
+	"value1" : "2500",
+	"value2" : null
+  } ]
+}
+
+
+```
