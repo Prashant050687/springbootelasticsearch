@@ -105,14 +105,14 @@
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
-		  <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna</artifactId>
-            <scope>test</scope>
-        </dependency>
-        
-        <dependency>
+
+		<dependency>
+			<groupId>net.java.dev.jna</groupId>
+			<artifactId>jna</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc7</artifactId>
 			<version>${oracle.version}</version>
@@ -143,6 +143,39 @@
 
 
 	</repositories>
+
+	<profiles>
+		<profile>
+			<id>liquibase-change-log-local</id>
+			<activation>
+				<property>
+					<name>localChangeset</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase.version}</version>
+						<configuration>
+							<propertyFile>src/main/resources/liquibase.properties</propertyFile>
+						</configuration>
+						<dependencies>
+						<dependency>
+							<groupId>com.oracle</groupId>
+							<artifactId>ojdbc7</artifactId>
+							<version>${oracle.version}</version>
+						</dependency>
+					</dependencies>
+					</plugin>
+				</plugins>
+
+
+			</build>
+		</profile>
+	</profiles>
 
 
 </project>
