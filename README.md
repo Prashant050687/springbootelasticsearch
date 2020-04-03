@@ -11,8 +11,11 @@
 - Download and setup Elastic server on your machine and run the elasticsearch.bat(for windows)
 - Create elastic search index using post man.
    The index can be created by a put request :
+   <br/>
      **URL**: localhost:9200/employee_index?include_type_name=true
+     <br/>
      **Method**: PUT
+     <br/>
      **Body** : [paste contents of  employee_index.json]
 	 
 - Build with tests
