@@ -18,10 +18,10 @@
      <br/>
      **Body** : [paste contents of  employee_index.json]
 	 
-- Build with tests
+- Build with tests<br/>
     On building the application with tests, the tests will create necessary tables in the in-memory H2 db and add documents to the elastic search index. The tests also have an example to search the document from elastic search.
 
-- Persisting data in actual db
+- Persisting data in actual db<br/>
    IF you want to persist the data in a real database, then you need to have an Oracle instance (could also setup local oracle dev edition db) and create the following user on the database:
    
 		create user EMPLOYEE_ES identified by test1234; 
