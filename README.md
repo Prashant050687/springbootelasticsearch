@@ -32,7 +32,7 @@
 
 - Sample Search Json
 
-``{
+{
 		  "conditions" : [ {
 			"fieldName" : "employeeType",
 			"operation" : "EQ",
