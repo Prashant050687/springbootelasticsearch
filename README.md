@@ -152,3 +152,15 @@
    ]
 }
 ```
+- Note: To compare if texts are phonetically similar, we can use the followign endpoint : <br/>
+  **URL**: localhost:9200/employee_index/_analyze
+     <br/>
+     **Method**: GET
+     <br/>
+     **Body** : 
+	 ```json
+{
+"analyzer": "my_analyzer",
+"text": "Pierson"
+}
+```
