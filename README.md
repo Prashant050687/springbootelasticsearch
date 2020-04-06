@@ -156,11 +156,12 @@
   **URL**: localhost:9200/employee_index/_analyze
      <br/>
      **Method**: GET
+	  <br/>
+     **Header**: Content-Type : application/json
      <br/>
      **Body** : 
-	 ```json
+	```json
 {
-"analyzer": "my_analyzer",
-"text": "Pierson"
+   "analyzer": "my_analyzer", "text": "Pierson"
 }
 ```
