@@ -122,3 +122,29 @@
 
 
 ```
+
+- Sample search json wih nested fields
+```json
+{
+   "conditions":[
+      {
+         "fieldName":"employeeType",
+         "operation":"EQ",
+         "value1":"PROJECT_LEADER",
+         "value2":null
+      },
+      {
+         "fieldName":"salary",
+         "operation":"GT",
+         "value1":"2500",
+         "value2":null
+      },
+      {
+         "fieldName":"contractType.type",
+         "operation":"EQ",
+         "value1":"Permanent",
+         "value2":null
+      }
+   ]
+}
+```

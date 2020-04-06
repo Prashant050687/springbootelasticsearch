@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.NestedQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 
 import com.prashant.elasticsearch.filter.dto.ESFilterCondition;
@@ -17,13 +19,28 @@ public class FilterBuilderHelper {
     Map<String, List<ESFilterCondition>> filtersByFieldName = esSearchFilter.getConditions().stream().collect(Collectors.groupingBy((ESFilterCondition::getFieldName)));
 
     for (Map.Entry<String, List<ESFilterCondition>> entry : filtersByFieldName.entrySet()) {
-      BoolQueryBuilder boolFieldQueryBuilder = new BoolQueryBuilder();
       List<ESFilterCondition> fieldConditions = entry.getValue();
       String fieldName = entry.getKey();
-      for (ESFilterCondition condition : fieldConditions) {
-        boolFieldQueryBuilder.should(QueryBuilderHelper.prepareSimpleCondition(condition));
+
+      if (fieldName.contains(".")) {
+        // nested search. First identify the root element
+        BoolQueryBuilder boolFieldQueryBuilder = new BoolQueryBuilder();
+        int lastIndex = fieldName.lastIndexOf(".");
+        String rootPath = fieldName.substring(0, lastIndex);
+        for (ESFilterCondition condition : fieldConditions) {
+          boolFieldQueryBuilder.should(QueryBuilderHelper.prepareQueryCondition(condition));
+        }
+        NestedQueryBuilder nestedQuery = new NestedQueryBuilder(rootPath, boolFieldQueryBuilder, ScoreMode.None);
+        boolParentQueryBuilder.must(nestedQuery);
+
+      } else {
+        BoolQueryBuilder boolFieldQueryBuilder = new BoolQueryBuilder();
+        for (ESFilterCondition condition : fieldConditions) {
+          boolFieldQueryBuilder.should(QueryBuilderHelper.prepareQueryCondition(condition));
+        }
+        boolParentQueryBuilder.must(boolFieldQueryBuilder);
       }
-      boolParentQueryBuilder.must(boolFieldQueryBuilder);
+
     }
 
     return boolParentQueryBuilder;

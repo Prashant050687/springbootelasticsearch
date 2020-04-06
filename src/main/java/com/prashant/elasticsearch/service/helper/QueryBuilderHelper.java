@@ -9,7 +9,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import com.prashant.elasticsearch.filter.dto.ESFilterCondition;
 
 public class QueryBuilderHelper {
-  public static QueryBuilder prepareSimpleCondition(ESFilterCondition condition) {
+  public static QueryBuilder prepareQueryCondition(ESFilterCondition condition) {
     QueryBuilder queryStringBuilder;
     switch (condition.getOperation()) {
       case EQ:
