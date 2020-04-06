@@ -75,6 +75,25 @@
 
 ```
 
+- Sample Create Contractual Project Leader Json
+```json
+{
+  "version" : 0,
+  "firstName" : "Cristiano",
+  "lastName" : "Ronaldo",
+  "salary" : 3000.11,
+  "contractType" : {
+    "id" : 2,
+    "type" : "Contractual"
+  },
+  "employeeType" : "PROJECT_LEADER",
+  "projectName" : "Test_1234",
+  "reportingEmployees" : 1
+}
+
+
+```
+
 - Sample Search Json
 ```json
 {
