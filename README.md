@@ -8,8 +8,8 @@
 
 
 ### Setup
-- Download and setup Elastic server on your machine and run the elasticsearch.bat(for windows)
-- Install phonectic search plugin elasticsearch-plugin install analysis-phonetic(for windows)
+- Download and setup Elastic server on your machine and run the : <b> elasticsearch.bat </b>(for windows)
+- Install phonectic search plugin : <b> elasticsearch-plugin install analysis-phonetic</b>(for windows)
 - Create elastic search index using post man.
    The index can be created by a put request :
    <br/>
@@ -107,7 +107,7 @@
   }, {
 	"fieldName" : "firstName",
 	"operation" : "EQ",
-	"value1" : "Cristiano",
+	"value1" : "Christian",
 	"value2" : null
   }, {
 	"fieldName" : "firstName",
@@ -136,7 +136,7 @@
          "value2":null
       },
       {
-         "fieldName":"firstName",
+         "fieldName":"lastName",
          "operation":"EQ",
          "value1":"Pierson",
          "value2":null
