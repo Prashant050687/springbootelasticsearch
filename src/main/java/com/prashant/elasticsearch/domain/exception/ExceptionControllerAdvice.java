@@ -16,14 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
-import org.springframework.web.multipart.MultipartException;
 
 import com.prashant.elasticsearch.dto.ErrorDetail;
 
@@ -63,48 +59,6 @@ public class ExceptionControllerAdvice {
   }
 
   /**
-   * Handles a case when file is not attached to multipart request
-   *
-   * @param e
-   *           any exception of type {@link Exception}
-   * @return {@link ResponseEntity} containing standard body in case of errors
-   */
-
-  @ExceptionHandler(MultipartException.class)
-  public HttpEntity<ErrorDetail> handleMultipartException(MultipartException e,
-    final HttpServletRequest request) {
-
-    LOGGER.error("MultipartException: file not found : {}", e.getMessage());
-
-    ErrorDetail problem = new ErrorDetail("File Upload Error", e.getMessage());
-    problem.setStatus(HttpStatus.BAD_REQUEST.value());
-
-    return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.NOT_FOUND);
-  }
-
-  /**
-   * Handles a case when max upload file size is beyond the limit
-   *
-   * @param e
-   *           any exception of type {@link Exception}
-   * @return {@link ResponseEntity} containing standard body in case of errors
-   */
-
-  @ExceptionHandler(MaxUploadSizeExceededException.class)
-  public HttpEntity<ErrorDetail> handleFileSizeLimitExceededException(
-    MaxUploadSizeExceededException e,
-    final HttpServletRequest request) {
-
-    LOGGER.error("MaxUploadSizeExceededException: {} ", e.getMessage());
-
-    ErrorDetail problem = new ErrorDetail("File Size Limit Exceeded",
-      e.getRootCause().getMessage());
-    problem.setStatus(HttpStatus.BAD_REQUEST.value());
-
-    return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.NOT_FOUND);
-  }
-
-  /**
    * Handles a case when message from request body cannot be de-serialized
    *
    * @param e
@@ -131,29 +85,6 @@ public class ExceptionControllerAdvice {
    *           any exception of type {@link MethodArgumentNotValidException}
    * @return {@link ResponseEntity} containing standard body in case of errors
    */
-  @ExceptionHandler(MethodArgumentNotValidException.class)
-  public HttpEntity<ErrorDetail> handleMethodArgumentNotValidException(
-    MethodArgumentNotValidException e, final HttpServletRequest request) {
-
-    LOGGER.error("Request body is invalid: {}", e.getMessage());
-
-    final ErrorDetail problem = new ErrorDetail("Validation failed", null);
-    problem.setStatus(HttpStatus.BAD_REQUEST.value());
-
-    problem.setErrors(e.getBindingResult().getAllErrors().stream().map(
-      objectError -> new ErrorDetail("Invalid Parameter", wrapWithFieldName(objectError)))
-      .collect(Collectors.toList()));
-
-    return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.BAD_REQUEST);
-  }
-
-  /**
-   * Handles a case when validation of the request body fails
-   *
-   * @param e
-   *           any exception of type {@link MethodArgumentNotValidException}
-   * @return {@link ResponseEntity} containing standard body in case of errors
-   */
   @ExceptionHandler(AccessDeniedException.class)
   public HttpEntity<ErrorDetail> handleAccessDeniedException(
     AccessDeniedException e, final HttpServletRequest request) {
@@ -166,6 +97,24 @@ public class ExceptionControllerAdvice {
     problem.setStatus(HttpStatus.FORBIDDEN.value());
 
     return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.FORBIDDEN);
+  }
+
+  /**
+   * Handles a case when there are business Exceptions
+   
+   */
+  @ExceptionHandler(BusinessException.class)
+  public HttpEntity<ErrorDetail> handleBusinessException(
+    AccessDeniedException e, final HttpServletRequest request) {
+
+    LOGGER.error("Business Exception: {}", e.getMessage());
+
+    final ErrorDetail problem = new ErrorDetail(
+      "Business Exception",
+      e.getMessage());
+    problem.setStatus(HttpStatus.BAD_REQUEST.value());
+
+    return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.BAD_REQUEST);
   }
 
   /**
@@ -283,13 +232,4 @@ public class ExceptionControllerAdvice {
     return httpHeaders;
   }
 
-  private String wrapWithFieldName(ObjectError objectError) {
-    String defaultMessage = objectError.getDefaultMessage();
-    // put field name in case of Field Error
-    if (objectError instanceof FieldError) {
-      defaultMessage = ((FieldError) objectError).getField() + " "
-        + objectError.getDefaultMessage();
-    }
-    return defaultMessage;
-  }
 }

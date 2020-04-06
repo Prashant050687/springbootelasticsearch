@@ -21,6 +21,7 @@
 - Build with tests<br/>
     On building the application with tests, the tests will create necessary tables in the in-memory H2 db and add documents to the elastic search index. The tests also have an example to search the document from elastic search.
 
+
 - Persisting data in actual db<br/>
    IF you want to persist the data in a real database, then you need to have an Oracle instance (could also setup local oracle dev edition db) and create the following user on the database:
    
@@ -32,6 +33,47 @@
 		CREATE ROLE, CREATE SEQUENCE, CREATE SYNONYM, CREATE TABLE,  
 		CREATE TRIGGER, CREATE TYPE, CREATE VIEW, UNLIMITED TABLESPACE 
 		to EMPLOYEE_ES; 
+
+- Swagger Endpoint<br/>
+   http://localhost:7001/swagger-ui.html
+
+
+- Sample Create Employee Json
+```json
+{
+  "version" : 0,
+  "firstName" : "Test",
+  "lastName" : "Employee",
+  "salary" : 2000.00,
+  "contractType" : {
+    "id" : 1,
+    "type" : "Permanent"
+  },
+  "employeeType" : "STANDARD_EMPLOYEE"
+
+}
+
+
+```		
+		
+- Sample Create Project Leader Json
+```json
+{
+  "version" : 0,
+  "firstName" : "Project",
+  "lastName" : "Leader",
+  "salary" : 3000.11,
+  "contractType" : {
+    "id" : 1,
+    "type" : "Permanent"
+  },
+  "employeeType" : "PROJECT_LEADER",
+  "projectName" : "Test_1234",
+  "reportingEmployees" : 100
+}
+
+
+```
 
 - Sample Search Json
 ```json

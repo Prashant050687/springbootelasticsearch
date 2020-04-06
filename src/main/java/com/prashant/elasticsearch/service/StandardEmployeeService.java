@@ -38,11 +38,18 @@ public class StandardEmployeeService extends BaseEmployeeService implements Empl
     this.employeeDataAssembler = employeeDataAssembler;
   }
 
-  @Override
   @Transactional(readOnly = true)
   public Employee findEmployeeById(Long id) {
     Validate.notNull(id, "Employee id cannot be null");
     return employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee", id));
+  }
+
+  @Override
+  @Transactional
+  public EmployeeDTO saveEmployee(String json) {
+    EmployeeDTO employeeDTO = getEmployeeDTO(json);
+    return saveEmployee(employeeDTO);
+
   }
 
   @Override
@@ -64,10 +71,9 @@ public class StandardEmployeeService extends BaseEmployeeService implements Empl
       employeeFromDB = employeeRepository.save(employee);
     }
     employeeDTO = employeeDataAssembler.convertToEmployeeDTO(employeeFromDB);
-    addToElasticSearch(employeeDTO);
+    addToElasticSearchIndex(employeeDTO);
 
     return employeeDTO;
-
   }
 
   @Override
@@ -85,6 +91,7 @@ public class StandardEmployeeService extends BaseEmployeeService implements Empl
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<EmployeeDTO> findAllEmployeesByIds(List<Long> ids) {
     List<Employee> employeesFromDB = employeeRepository.findAllById(ids);
     List<EmployeeDTO> employees = new ArrayList<>();
@@ -93,10 +100,29 @@ public class StandardEmployeeService extends BaseEmployeeService implements Empl
   }
 
   @Override
+  @Transactional
   public void deleteEmployee(Long id) {
     Employee employee = findEmployeeById(id);
     employeeRepository.delete(employee);
+    deleteFromElasticSearchIndex(id);
 
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<EmployeeDTO> findAllEmployees() {
+    List<Employee> employeesFromDB = employeeRepository.findAll();
+    List<EmployeeDTO> employees = new ArrayList<>();
+    employeesFromDB.forEach(p -> employees.add(employeeDataAssembler.convertToEmployeeDTO(p)));
+    return employees;
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public EmployeeDTO getEmployeeById(Long id) {
+    Employee employee = findEmployeeById(id);
+
+    return employeeDataAssembler.convertToEmployeeDTO(employee);
   }
 
 }

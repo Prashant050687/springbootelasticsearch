@@ -30,7 +30,11 @@ public class BaseEmployeeService {
     return employee;
   }
 
-  protected void addToElasticSearch(EmployeeDTO employeeDTO) {
+  protected void addToElasticSearchIndex(EmployeeDTO employeeDTO) {
     employeeESService.saveEmployee(convertEmployeeToESDTO(employeeDTO));
+  }
+
+  protected void deleteFromElasticSearchIndex(Long id) {
+    employeeESService.deleteEmployee(id);
   }
 }

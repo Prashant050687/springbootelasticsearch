@@ -36,6 +36,8 @@ import com.prashant.elasticsearch.service.StandardEmployeeService;
 @ActiveProfiles({"test"})
 class ElasticsearchApplicationTest {
 
+  private static final String COMPANY_NAME = "Test_1234";
+
   @Autowired
   StandardEmployeeService standardEmployeeService;
 
@@ -83,13 +85,13 @@ class ElasticsearchApplicationTest {
     projectLeaderDTO.setContractType(new ContractTypeDTO(1L, "Permanent"));
     projectLeaderDTO.setEmployeeType(EmployeeType.PROJECT_LEADER);
 
-    projectLeaderDTO.setProjectName("Adidas");
+    projectLeaderDTO.setProjectName(COMPANY_NAME);
     projectLeaderDTO.setReportingEmployees(100);
 
     ProjectLeaderDTO savedPL = projectLeaderService.saveEmployee(projectLeaderDTO);
 
     ProjectLeader employee = projectLeaderService.findEmployeeById(savedPL.getId());
-    assertEquals("Adidas", employee.getProjectName());
+    assertEquals(COMPANY_NAME, employee.getProjectName());
     assertEquals("Cristiano", employee.getFirstName());
 
   }
@@ -104,17 +106,23 @@ class ElasticsearchApplicationTest {
     projectLeaderDTO.setContractType(new ContractTypeDTO(1L, "Permanent"));
     projectLeaderDTO.setEmployeeType(EmployeeType.PROJECT_LEADER);
 
-    projectLeaderDTO.setProjectName("Adidas");
+    projectLeaderDTO.setProjectName(COMPANY_NAME);
     projectLeaderDTO.setReportingEmployees(100);
 
     EmployeeServiceType<ProjectLeaderDTO, ProjectLeader> polyEmpService = employeeServices.stream().filter(e -> e.getEmployeeType().equals(EmployeeType.PROJECT_LEADER))
       .findFirst()
       .orElseThrow(() -> new RuntimeException("Employee Service Not found"));
 
+    try {
+      System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(projectLeaderDTO));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
     ProjectLeaderDTO savedPL = polyEmpService.saveEmployee(projectLeaderDTO);
 
-    ProjectLeader employee = polyEmpService.findEmployeeById(savedPL.getId());
-    assertEquals("Adidas", employee.getProjectName());
+    ProjectLeaderDTO employee = polyEmpService.getEmployeeById(savedPL.getId());
+    assertEquals(COMPANY_NAME, employee.getProjectName());
     assertEquals("Project", employee.getFirstName());
 
     // Search using criteria

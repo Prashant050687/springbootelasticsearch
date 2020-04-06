@@ -34,11 +34,18 @@ public class ProjectLeaderService extends BaseEmployeeService implements Employe
     this.projectLeaderValidator = projectLeaderValidator;
   }
 
-  @Override
   @Transactional(readOnly = true)
   public ProjectLeader findEmployeeById(Long id) {
     Validate.notNull(id, "Project Leader id cannot be null");
     return projectLeadRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Project Leader", id));
+  }
+
+  @Override
+  @Transactional
+  public ProjectLeaderDTO saveEmployee(String json) {
+    ProjectLeaderDTO projectLeaderDTO = getEmployeeDTO(json);
+    return saveEmployee(projectLeaderDTO);
+
   }
 
   @Override
@@ -60,10 +67,9 @@ public class ProjectLeaderService extends BaseEmployeeService implements Employe
 
     ProjectLeaderDTO savedProjectLeaderDTO = convertToProjectLeaderDTO(projectLeaderFromDB);
 
-    addToElasticSearch(savedProjectLeaderDTO);
+    addToElasticSearchIndex(savedProjectLeaderDTO);
 
     return savedProjectLeaderDTO;
-
   }
 
   private ProjectLeaderDTO convertToProjectLeaderDTO(ProjectLeader projectLeader) {
@@ -100,6 +106,7 @@ public class ProjectLeaderService extends BaseEmployeeService implements Employe
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<ProjectLeaderDTO> findAllEmployeesByIds(List<Long> ids) {
     List<ProjectLeader> projectLeadersFromDB = projectLeadRepo.findAllById(ids);
     List<ProjectLeaderDTO> projectLeaders = new ArrayList<ProjectLeaderDTO>();
@@ -108,9 +115,28 @@ public class ProjectLeaderService extends BaseEmployeeService implements Employe
   }
 
   @Override
+  @Transactional
   public void deleteEmployee(Long id) {
     ProjectLeader projectLeader = findEmployeeById(id);
     projectLeadRepo.delete(projectLeader);
+    deleteFromElasticSearchIndex(id);
 
   }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<ProjectLeaderDTO> findAllEmployees() {
+    List<ProjectLeader> projectLeadersFromDB = projectLeadRepo.findAll();
+    List<ProjectLeaderDTO> projectLeaders = new ArrayList<ProjectLeaderDTO>();
+    projectLeadersFromDB.forEach(p -> projectLeaders.add(convertToProjectLeaderDTO(p)));
+    return projectLeaders;
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public ProjectLeaderDTO getEmployeeById(Long id) {
+    ProjectLeader projectLeader = findEmployeeById(id);
+    return convertToProjectLeaderDTO(projectLeader);
+  }
+
 }
