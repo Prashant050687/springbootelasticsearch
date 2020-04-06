@@ -9,6 +9,7 @@
 
 ### Setup
 - Download and setup Elastic server on your machine and run the elasticsearch.bat(for windows)
+- Install phonectic search plugin elasticsearch-plugin install analysis-phonetic(for windows)
 - Create elastic search index using post man.
    The index can be created by a put request :
    <br/>
@@ -79,8 +80,8 @@
 ```json
 {
   "version" : 0,
-  "firstName" : "Cristiano",
-  "lastName" : "Ronaldo",
+  "firstName" : "Christian",
+  "lastName" : "Pearson",
   "salary" : 3000.11,
   "contractType" : {
     "id" : 2,
@@ -93,6 +94,7 @@
 
 
 ```
+
 
 - Sample Search Json
 ```json
@@ -123,7 +125,7 @@
 
 ```
 
-- Sample search json wih nested fields
+- Sample search json wih nested fields and phonetic
 ```json
 {
    "conditions":[
@@ -134,15 +136,15 @@
          "value2":null
       },
       {
-         "fieldName":"salary",
-         "operation":"GT",
-         "value1":"2500",
+         "fieldName":"firstName",
+         "operation":"EQ",
+         "value1":"Pierson",
          "value2":null
       },
       {
          "fieldName":"contractType.type",
          "operation":"EQ",
-         "value1":"Permanent",
+         "value1":"Contractual",
          "value2":null
       }
    ]

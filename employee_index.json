@@ -7,10 +7,12 @@
           "type": "keyword"
         },
         "firstName": {
-          "type": "text"
+          "type": "text",
+          "analyzer": "my_analyzer"
         },
         "lastName": {
-          "type": "text"
+          "type": "text",
+          "analyzer": "my_analyzer"
         },
         "salary": {
           "type": "double"
@@ -35,8 +37,25 @@
       }
     }
   },
+
   "settings": {
     "number_of_shards": "2",
-    "number_of_replicas": "1"
+    "number_of_replicas": "1",
+
+    "analysis": {
+      "analyzer": {
+        "my_analyzer": {
+          "tokenizer": "standard",
+          "filter": ["lowercase", "phonemas"]
+        }
+      },
+      "filter": {
+        "phonemas": {
+          "type": "phonetic",
+          "encoder": "metaphone",
+          "replace": "false"
+        }
+      }
+    }
   }
 }
