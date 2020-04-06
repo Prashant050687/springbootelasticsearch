@@ -159,9 +159,5 @@
 	  <br/>
      **Header**: Content-Type : application/json
      <br/>
-     **Body** : 
-	```json
-{
-   "analyzer": "my_analyzer", "text": "Pierson"
-}
-```
+     **Body** : {"analyzer": "my_analyzer", "text": "Pierson"}
+
