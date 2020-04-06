@@ -25,10 +25,10 @@
           "type": "nested",
           "properties": {
             "id": {
-              "type": "long"
+              "type": "keyword"
             },
             "name": {
-              "type": "text"
+              "type": "keyword"
             }
           }
         }
