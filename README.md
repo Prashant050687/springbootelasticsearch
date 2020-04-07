@@ -1,6 +1,7 @@
 ### Elastic search using spring boot
 
 - Sample project showing how to integrate elastic search using spring data elastic search
+- Blog : https://prashant-hariharan.blogspot.com/2020/04/spring-boot-with-elastic-search.html
 
 
 
