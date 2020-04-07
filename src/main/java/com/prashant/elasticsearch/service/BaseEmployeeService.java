@@ -7,10 +7,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prashant.elasticsearch.dto.EmployeeDTO;
 import com.prashant.elasticsearch.dto.EmployeeES;
 
-import lombok.Data;
+import lombok.Getter;
 
 @Service
-@Data
+@Getter
 public class BaseEmployeeService {
   @Autowired
   private ObjectMapper mapper;
