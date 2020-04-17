@@ -1,5 +1,6 @@
 package com.prashant.elasticsearch.rest;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -21,9 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.prashant.elasticsearch.db.repo.ContractTypeRepository;
+import com.prashant.elasticsearch.domain.ContractType;
 import com.prashant.elasticsearch.domain.Employee;
 import com.prashant.elasticsearch.domain.EmployeeType;
 import com.prashant.elasticsearch.domain.exception.BusinessException;
+import com.prashant.elasticsearch.dto.ContractTypeDTO;
 import com.prashant.elasticsearch.dto.EmployeeDTO;
 import com.prashant.elasticsearch.dto.EmployeeES;
 import com.prashant.elasticsearch.filter.dto.ESSearchFilter;
@@ -34,6 +38,9 @@ import com.prashant.elasticsearch.service.EmployeeServiceType;
 @ExposesResourceFor(EmployeeDTO.class)
 @RequestMapping("/employee")
 public class EmployeeController implements IEmployeeController {
+
+  @Autowired
+  ContractTypeRepository contractTypeRepo;
 
   @Autowired
   private Collection<EmployeeServiceType<? extends EmployeeDTO, ? extends Employee>> employeeServices;
@@ -87,6 +94,17 @@ public class EmployeeController implements IEmployeeController {
   @PostMapping(value = "/searchall")
   public ResponseEntity<List<EmployeeES>> searchEmployees(@RequestBody @Valid ESSearchFilter esSearchFilter) {
     return ResponseEntity.ok(employeeESService.searchEmployeeByCriteria(esSearchFilter));
+  }
+
+  @Override
+  public ResponseEntity<List<ContractTypeDTO>> findContractTypes() {
+    List<ContractType> contractTypesFromDB = contractTypeRepo.findAll();
+    List<ContractTypeDTO> contractTypes = new ArrayList<ContractTypeDTO>();
+    for (ContractType contractType : contractTypesFromDB) {
+      ContractTypeDTO contractTypeDTO = new ContractTypeDTO(contractType.getId(), contractType.getType());
+      contractTypes.add(contractTypeDTO);
+    }
+    return ResponseEntity.ok(contractTypes);
   }
 
 }

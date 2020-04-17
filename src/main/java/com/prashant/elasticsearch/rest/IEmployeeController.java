@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.prashant.elasticsearch.domain.EmployeeType;
+import com.prashant.elasticsearch.dto.ContractTypeDTO;
 import com.prashant.elasticsearch.dto.EmployeeDTO;
 import com.prashant.elasticsearch.dto.EmployeeES;
 import com.prashant.elasticsearch.filter.dto.ESSearchFilter;
@@ -25,6 +26,19 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 public interface IEmployeeController {
+
+  @Operation(
+    summary = "Get All Contract Types masterdata",
+    description = "Allow to get allContract Types masterdata",
+    method = "GET",
+
+    responses = {
+      @ApiResponse(responseCode = "200", description = "Successfully retrieved Contract Type data",
+        content = @Content(
+          mediaType = "application/json",
+          schema = @Schema(implementation = ContractTypeDTO.class)))})
+  ResponseEntity<List<ContractTypeDTO>> findContractTypes();
+
   @Operation(
     summary = "Get Employees",
     description = "Allow to get Employees",
