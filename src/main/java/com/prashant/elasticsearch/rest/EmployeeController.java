@@ -29,7 +29,6 @@ import com.prashant.elasticsearch.domain.EmployeeType;
 import com.prashant.elasticsearch.domain.exception.BusinessException;
 import com.prashant.elasticsearch.dto.ContractTypeDTO;
 import com.prashant.elasticsearch.dto.EmployeeDTO;
-import com.prashant.elasticsearch.dto.EmployeeES;
 import com.prashant.elasticsearch.filter.dto.ESSearchFilter;
 import com.prashant.elasticsearch.service.EmployeeESService;
 import com.prashant.elasticsearch.service.EmployeeServiceType;
@@ -53,6 +52,13 @@ public class EmployeeController implements IEmployeeController {
   public ResponseEntity<List<? extends EmployeeDTO>> findAllEmployees(final Pageable pageable,
     @RequestParam(name = "employeeType", defaultValue = "STANDARD_EMPLOYEE") final EmployeeType employeeType) {
     return ResponseEntity.ok(getEmployeeService(employeeType).findAllEmployees());
+  }
+
+  @Override
+  @GetMapping(value = "/pageable")
+  public ResponseEntity<Page<? extends Employee>> findAllEmployeesPageable(Pageable pageable,
+    @RequestParam(name = "employeeType", defaultValue = "STANDARD_EMPLOYEE") final EmployeeType employeeType) {
+    return ResponseEntity.ok(getEmployeeService(employeeType).findAllEmployeesPageable(pageable));
   }
 
   private EmployeeServiceType<? extends EmployeeDTO, ? extends Employee> getEmployeeService(EmployeeType employeeType) {
@@ -86,13 +92,13 @@ public class EmployeeController implements IEmployeeController {
 
   @Override
   @PostMapping(value = "/search")
-  public ResponseEntity<Page<EmployeeES>> searchEmployees(final Pageable pageable, @RequestBody @Valid ESSearchFilter esSearchFilter) {
+  public ResponseEntity<Page<EmployeeDTO>> searchEmployees(final Pageable pageable, @RequestBody @Valid ESSearchFilter esSearchFilter) {
     return ResponseEntity.ok(employeeESService.searchEmployeeByCriteria(esSearchFilter, pageable));
   }
 
   @Override
   @PostMapping(value = "/searchall")
-  public ResponseEntity<List<EmployeeES>> searchEmployees(@RequestBody @Valid ESSearchFilter esSearchFilter) {
+  public ResponseEntity<List<EmployeeDTO>> searchEmployees(@RequestBody @Valid ESSearchFilter esSearchFilter) {
     return ResponseEntity.ok(employeeESService.searchEmployeeByCriteria(esSearchFilter));
   }
 

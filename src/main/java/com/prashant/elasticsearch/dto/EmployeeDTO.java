@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.data.elasticsearch.annotations.Document;
+
 import com.prashant.elasticsearch.domain.EmployeeType;
 
 import lombok.Data;
@@ -11,6 +13,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Document(indexName = "employee_index", type = "employee")
 public class EmployeeDTO extends BaseAuditDTO implements Serializable {
 
   /**

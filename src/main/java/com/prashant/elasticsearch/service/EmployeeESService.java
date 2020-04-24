@@ -12,7 +12,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.stereotype.Service;
 
 import com.prashant.elasticsearch.domain.exception.ResourceNotFoundException;
-import com.prashant.elasticsearch.dto.EmployeeES;
+import com.prashant.elasticsearch.dto.EmployeeDTO;
 import com.prashant.elasticsearch.es.repo.EmployeeESRepo;
 import com.prashant.elasticsearch.filter.dto.ESSearchFilter;
 import com.prashant.elasticsearch.service.helper.FilterBuilderHelper;
@@ -30,20 +30,20 @@ public class EmployeeESService {
     this.employeeESRepo = employeeESRepo;
   }
 
-  public EmployeeES saveEmployee(EmployeeES employee) {
+  public EmployeeDTO saveEmployee(EmployeeDTO employee) {
     return employeeESRepo.save(employee);
   }
 
-  public EmployeeES findById(Long id) {
+  public EmployeeDTO findById(Long id) {
     return employeeESRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee", id));
   }
 
-  public Iterable<EmployeeES> findAll() {
+  public Iterable<EmployeeDTO> findAll() {
     return employeeESRepo.findAll();
   }
 
   public void deleteEmployee(Long id) {
-    EmployeeES employee = findById(id);
+    EmployeeDTO employee = findById(id);
     employeeESRepo.delete(employee);
   }
 
@@ -52,11 +52,11 @@ public class EmployeeESService {
    * @param esSearchFilter
    * @return List<EmployeeES>
    */
-  public List<EmployeeES> searchEmployeeByCriteria(ESSearchFilter esSearchFilter) {
+  public List<EmployeeDTO> searchEmployeeByCriteria(ESSearchFilter esSearchFilter) {
     QueryBuilder query = FilterBuilderHelper.build(esSearchFilter);
     NativeSearchQuery nativeSearchQuery = new NativeSearchQueryBuilder().withQuery(query).build();
 
-    return elasticSearchTemplate.queryForList(nativeSearchQuery, EmployeeES.class);
+    return elasticSearchTemplate.queryForList(nativeSearchQuery, EmployeeDTO.class);
   }
 
   /**
@@ -65,7 +65,7 @@ public class EmployeeESService {
    * @param pageable
    * @return Page<EmployeeES>
    */
-  public Page<EmployeeES> searchEmployeeByCriteria(ESSearchFilter esSearchFilter, Pageable pageable) {
+  public Page<EmployeeDTO> searchEmployeeByCriteria(ESSearchFilter esSearchFilter, Pageable pageable) {
     QueryBuilder query = FilterBuilderHelper.build(esSearchFilter);
     NativeSearchQuery nativeSearchQuery = null;
     if (null != pageable) {

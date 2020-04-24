@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.prashant.elasticsearch.domain.Employee;
 import com.prashant.elasticsearch.domain.EmployeeType;
 import com.prashant.elasticsearch.dto.ContractTypeDTO;
 import com.prashant.elasticsearch.dto.EmployeeDTO;
-import com.prashant.elasticsearch.dto.EmployeeES;
 import com.prashant.elasticsearch.filter.dto.ESSearchFilter;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,6 +58,27 @@ public interface IEmployeeController {
           mediaType = "application/json",
           schema = @Schema(implementation = EmployeeDTO.class)))})
   ResponseEntity<List<? extends EmployeeDTO>> findAllEmployees(@Parameter(hidden = true) @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
+    @RequestParam(name = "employeeType", defaultValue = "STANDARD_EMPLOYEE") final EmployeeType employeeType);
+
+  @Operation(
+    summary = "Get Employees",
+    description = "Allow to get Employees",
+    method = "GET",
+    parameters = {
+      @Parameter(name = "page", in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "0"),
+        description = "Results page you want to retrieve (0..N)"),
+      @Parameter(name = "size", in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "10"),
+        description = "Number of records per page. "),
+      @Parameter(name = "sort", in = ParameterIn.QUERY, schema = @Schema(type = "string", defaultValue = "id,asc"),
+        description = "Sorting criteria in the format: property,asc|dec. " +
+          "Default sort order is ascending.")
+    },
+    responses = {
+      @ApiResponse(responseCode = "200", description = "Successfully retrieved Employees data",
+        content = @Content(
+          mediaType = "application/json",
+          schema = @Schema(implementation = Employee.class)))})
+  ResponseEntity<Page<? extends Employee>> findAllEmployeesPageable(@Parameter(hidden = true) @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
     @RequestParam(name = "employeeType", defaultValue = "STANDARD_EMPLOYEE") final EmployeeType employeeType);
 
   @Operation(
@@ -123,8 +144,8 @@ public interface IEmployeeController {
       @ApiResponse(responseCode = "200", description = "Successfully Searched Employee data",
         content = @Content(
           mediaType = "application/json",
-          schema = @Schema(implementation = EmployeeES.class)))})
-  ResponseEntity<Page<EmployeeES>> searchEmployees(@Parameter(hidden = true) @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
+          schema = @Schema(implementation = EmployeeDTO.class)))})
+  ResponseEntity<Page<EmployeeDTO>> searchEmployees(@Parameter(hidden = true) @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
     @RequestBody ESSearchFilter esSearchFilter);
 
   @Operation(
@@ -139,8 +160,8 @@ public interface IEmployeeController {
       @ApiResponse(responseCode = "200", description = "Successfully Searched Employee data",
         content = @Content(
           mediaType = "application/json",
-          schema = @Schema(implementation = EmployeeES.class)))})
-  ResponseEntity<List<EmployeeES>> searchEmployees(
+          schema = @Schema(implementation = EmployeeDTO.class)))})
+  ResponseEntity<List<EmployeeDTO>> searchEmployees(
     @RequestBody ESSearchFilter esSearchFilter);
 
 }

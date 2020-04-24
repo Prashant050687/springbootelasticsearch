@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -139,4 +141,8 @@ public class ProjectLeaderService extends BaseEmployeeService implements Employe
     return convertToProjectLeaderDTO(projectLeader);
   }
 
+  @Override
+  public Page<ProjectLeader> findAllEmployeesPageable(Pageable pageable) {
+    return projectLeadRepo.findAll(pageable);
+  }
 }

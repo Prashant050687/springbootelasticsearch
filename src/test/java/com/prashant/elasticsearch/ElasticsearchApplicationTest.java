@@ -22,7 +22,6 @@ import com.prashant.elasticsearch.domain.EmployeeType;
 import com.prashant.elasticsearch.domain.ProjectLeader;
 import com.prashant.elasticsearch.dto.ContractTypeDTO;
 import com.prashant.elasticsearch.dto.EmployeeDTO;
-import com.prashant.elasticsearch.dto.EmployeeES;
 import com.prashant.elasticsearch.dto.ProjectLeaderDTO;
 import com.prashant.elasticsearch.filter.dto.ESFilterCondition;
 import com.prashant.elasticsearch.filter.dto.ESSearchFilter;
@@ -128,7 +127,7 @@ class ElasticsearchApplicationTest {
     // Search using criteria
     ESSearchFilter esSearchFilter = buildSearchCriteria();
 
-    List<EmployeeES> employees = esService.searchEmployeeByCriteria(esSearchFilter);
+    List<EmployeeDTO> employees = esService.searchEmployeeByCriteria(esSearchFilter);
 
     assertEquals("Project", employees.get(0).getFirstName());
     System.out.println(employees.get(0).getCreatedDate());
@@ -136,7 +135,7 @@ class ElasticsearchApplicationTest {
     // search using pagination and criteria
     Pageable pageable = PageRequest.of(0, 10, Sort.by("id"));
 
-    Page<EmployeeES> employeePageable = esService.searchEmployeeByCriteria(esSearchFilter, pageable);
+    Page<EmployeeDTO> employeePageable = esService.searchEmployeeByCriteria(esSearchFilter, pageable);
     System.out.println(employeePageable.getContent().get(0).getCreatedDate());
 
   }
