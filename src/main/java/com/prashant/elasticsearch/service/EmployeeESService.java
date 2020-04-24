@@ -38,8 +38,8 @@ public class EmployeeESService {
     return employeeESRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee", id));
   }
 
-  public Iterable<EmployeeDTO> findAll() {
-    return employeeESRepo.findAll();
+  public Page<EmployeeDTO> findAll(Pageable pageable) {
+    return employeeESRepo.findAll(pageable);
   }
 
   public void deleteEmployee(Long id) {

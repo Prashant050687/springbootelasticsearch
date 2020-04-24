@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,20 +45,6 @@ public class EmployeeController implements IEmployeeController {
   @Autowired
   private EmployeeESService employeeESService;
 
-  @Override
-  @GetMapping(value = "")
-  public ResponseEntity<List<? extends EmployeeDTO>> findAllEmployees(final Pageable pageable,
-    @RequestParam(name = "employeeType", defaultValue = "STANDARD_EMPLOYEE") final EmployeeType employeeType) {
-    return ResponseEntity.ok(getEmployeeService(employeeType).findAllEmployees());
-  }
-
-  @Override
-  @GetMapping(value = "/pageable")
-  public ResponseEntity<Page<? extends Employee>> findAllEmployeesPageable(Pageable pageable,
-    @RequestParam(name = "employeeType", defaultValue = "STANDARD_EMPLOYEE") final EmployeeType employeeType) {
-    return ResponseEntity.ok(getEmployeeService(employeeType).findAllEmployeesPageable(pageable));
-  }
-
   private EmployeeServiceType<? extends EmployeeDTO, ? extends Employee> getEmployeeService(EmployeeType employeeType) {
     return employeeServices.stream().filter(e -> e.getEmployeeType().equals(employeeType))
       .findFirst()
@@ -92,17 +76,18 @@ public class EmployeeController implements IEmployeeController {
 
   @Override
   @PostMapping(value = "/search")
-  public ResponseEntity<Page<EmployeeDTO>> searchEmployees(final Pageable pageable, @RequestBody @Valid ESSearchFilter esSearchFilter) {
-    return ResponseEntity.ok(employeeESService.searchEmployeeByCriteria(esSearchFilter, pageable));
+  public ResponseEntity<Page<EmployeeDTO>> searchEmployees(final Pageable pageable, @RequestBody(required = false) ESSearchFilter esSearchFilter) {
+    Page<EmployeeDTO> result = null;
+    if (esSearchFilter == null) {
+      result = employeeESService.findAll(pageable);
+    } else {
+      result = employeeESService.searchEmployeeByCriteria(esSearchFilter, pageable);
+    }
+    return ResponseEntity.ok(result);
   }
 
   @Override
-  @PostMapping(value = "/searchall")
-  public ResponseEntity<List<EmployeeDTO>> searchEmployees(@RequestBody @Valid ESSearchFilter esSearchFilter) {
-    return ResponseEntity.ok(employeeESService.searchEmployeeByCriteria(esSearchFilter));
-  }
-
-  @Override
+  @GetMapping(value = "/contracTypes")
   public ResponseEntity<List<ContractTypeDTO>> findContractTypes() {
     List<ContractType> contractTypesFromDB = contractTypeRepo.findAll();
     List<ContractTypeDTO> contractTypes = new ArrayList<ContractTypeDTO>();
