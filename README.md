@@ -25,7 +25,7 @@
 - Build with tests<br/>
     On building the application with tests, the tests will create necessary tables in the in-memory H2 db and add documents to the elastic search index. The tests also have an example to search the document from elastic search.
 Thus, when building with test, its important that your local Elastic search server is up and running and has the employee index.
-IF you want to build the application without tests use mvn clean install -DskipTests=true
+IF you want to build the application without tests use **mvn clean install -DskipTests=true**
 
 - Persisting data in actual db<br/>
    IF you want to persist the data in a real database, then you need to have an Oracle instance (could also setup local oracle dev edition db) and create the following user on the database:
