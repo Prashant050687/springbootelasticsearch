@@ -1,6 +1,7 @@
 package com.prashant.elasticsearch.domain.exception;
 
 import java.nio.file.AccessDeniedException;
+import java.sql.SQLSyntaxErrorException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -71,8 +72,7 @@ public class ExceptionControllerAdvice {
 
     LOGGER.error("Cannot de-serialize message in request body: {}", e.getMessage());
 
-    final ErrorDetail problem = new ErrorDetail("Message cannot be converted",
-      String.format("Invalid request body: %s", e.getMessage()));
+    final ErrorDetail problem = new ErrorDetail("Invalid request", "Input Request Message cannot be processed");
     problem.setStatus(HttpStatus.BAD_REQUEST.value());
 
     return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.BAD_REQUEST);
@@ -156,7 +156,7 @@ public class ExceptionControllerAdvice {
 
     LOGGER.debug("Request body is invalid: {}", exceptionMessage);
 
-    final ErrorDetail problem = new ErrorDetail("Field type mismatch", null);
+    final ErrorDetail problem = new ErrorDetail("Field type mismatch", exceptionMessage);
     problem.setStatus(HttpStatus.BAD_REQUEST.value());
     problem.setErrors(details);
 
@@ -171,9 +171,9 @@ public class ExceptionControllerAdvice {
 
     ErrorDetail problem = new ErrorDetail("Resource not found",
       "Requested resource cannot be found");
-    problem.setStatus(HttpStatus.NOT_FOUND.value());
+    problem.setStatus(HttpStatus.BAD_REQUEST.value());
 
-    return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
@@ -184,6 +184,19 @@ public class ExceptionControllerAdvice {
 
     ErrorDetail problem = new ErrorDetail("Optimistic Locking Failure",
       "Update on an outdated version is not allowed.");
+    problem.setStatus(HttpStatus.LOCKED.value());
+
+    return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.LOCKED);
+  }
+
+  @ExceptionHandler(SQLSyntaxErrorException.class)
+  public HttpEntity<ErrorDetail> handleSQLSyntaxErrorExceptionException(
+    SQLSyntaxErrorException e, final HttpServletRequest request) {
+
+    LOGGER.error("ObjectOptimisticLockingFailureException: {}", e.getMessage());
+
+    ErrorDetail problem = new ErrorDetail("Invalid Data Fetch",
+      e.getMessage());
     problem.setStatus(HttpStatus.LOCKED.value());
 
     return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.LOCKED);

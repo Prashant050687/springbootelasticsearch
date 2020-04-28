@@ -37,5 +37,5 @@ public class EmployeeDTO extends BaseAuditDTO implements Serializable {
   @NotNull(message = "Employee Type cannot be null")
   EmployeeType employeeType;
 
-  private String imageData;
+  private String imagePath;
 }

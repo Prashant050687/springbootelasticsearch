@@ -17,6 +17,7 @@ public class EmployeeDataAssembler {
     employee.setSalary(employeeDTO.getSalary());
     employee.setContractType(new ContractType(employeeDTO.getContractType().getId(), employeeDTO.getContractType().getType()));
     employee.setEmployeeType(employeeDTO.getEmployeeType());
+    employee.setImagePath(employeeDTO.getImagePath());
     employee.setVersion(employeeDTO.getVersion());
     employee.setCreatedDate(employeeDTO.getCreatedDate());
     return employee;
@@ -30,6 +31,7 @@ public class EmployeeDataAssembler {
     employeeDTO.setSalary(employee.getSalary());
     employeeDTO.setContractType(new ContractTypeDTO(employee.getContractType().getId(), employee.getContractType().getType()));
     employeeDTO.setEmployeeType(employee.getEmployeeType());
+    employeeDTO.setImagePath(employee.getImagePath());
     employeeDTO.setVersion(employee.getVersion());
     employeeDTO.setCreatedDate(employee.getCreatedDate());
     return employeeDTO;

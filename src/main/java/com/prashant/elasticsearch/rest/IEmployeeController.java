@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.prashant.elasticsearch.domain.EmployeeType;
 import com.prashant.elasticsearch.dto.ContractTypeDTO;
 import com.prashant.elasticsearch.dto.EmployeeDTO;
+import com.prashant.elasticsearch.dto.ErrorDetail;
 import com.prashant.elasticsearch.filter.dto.ESSearchFilter;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,7 +36,11 @@ public interface IEmployeeController {
       @ApiResponse(responseCode = "200", description = "Successfully retrieved Contract Type data",
         content = @Content(
           mediaType = "application/json",
-          schema = @Schema(implementation = ContractTypeDTO.class)))})
+          schema = @Schema(implementation = ContractTypeDTO.class))),
+      @ApiResponse(responseCode = "4xx", description = "Error retrieving Employee data",
+        content = @Content(
+          mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDetail.class)))})
   ResponseEntity<List<ContractTypeDTO>> findContractTypes();
 
   @Operation(
@@ -47,7 +52,11 @@ public interface IEmployeeController {
       @ApiResponse(responseCode = "200", description = "Successfully retrieved Employee data",
         content = @Content(
           mediaType = "application/json",
-          schema = @Schema(implementation = EmployeeDTO.class)))})
+          schema = @Schema(implementation = EmployeeDTO.class))),
+      @ApiResponse(responseCode = "4xx", description = "Error retrieving Employee data",
+        content = @Content(
+          mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDetail.class)))})
   ResponseEntity<? extends EmployeeDTO> getEmployeeById(@PathVariable(name = "id") final Long assetId,
     @RequestParam(name = "employeeType", defaultValue = "STANDARD_EMPLOYEE") final EmployeeType employeeType);
 
@@ -64,7 +73,11 @@ public interface IEmployeeController {
       @ApiResponse(responseCode = "200", description = "Successfully saved Employee data",
         content = @Content(
           mediaType = "application/json",
-          schema = @Schema(implementation = EmployeeDTO.class)))})
+          schema = @Schema(implementation = EmployeeDTO.class))),
+      @ApiResponse(responseCode = "4xx", description = "Error retrieving Employee data",
+        content = @Content(
+          mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDetail.class)))})
   ResponseEntity<? extends EmployeeDTO> saveEmployee(@RequestBody final String json,
     @RequestParam(name = "employeeType", defaultValue = "STANDARD_EMPLOYEE") final EmployeeType employeeType);
 
@@ -77,7 +90,11 @@ public interface IEmployeeController {
       @ApiResponse(responseCode = "200", description = "Successfully deleted Employee data",
         content = @Content(
           mediaType = "application/json",
-          schema = @Schema(implementation = Void.class)))})
+          schema = @Schema(implementation = Void.class))),
+      @ApiResponse(responseCode = "4xx", description = "Error retrieving Employee data",
+        content = @Content(
+          mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDetail.class)))})
   HttpEntity<Void> deleteEmployeeById(@PathVariable(name = "id") final Long id,
     @RequestParam(name = "employeeType", defaultValue = "STANDARD_EMPLOYEE") final EmployeeType employeeType);
 
@@ -101,7 +118,11 @@ public interface IEmployeeController {
       @ApiResponse(responseCode = "200", description = "Successfully Searched Employee data",
         content = @Content(
           mediaType = "application/json",
-          schema = @Schema(implementation = EmployeeDTO.class)))})
+          schema = @Schema(implementation = EmployeeDTO.class))),
+      @ApiResponse(responseCode = "4xx", description = "Error retrieving Employee data",
+        content = @Content(
+          mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDetail.class)))})
   ResponseEntity<Page<EmployeeDTO>> searchEmployees(@Parameter(hidden = true) @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
     @RequestBody ESSearchFilter esSearchFilter);
 
