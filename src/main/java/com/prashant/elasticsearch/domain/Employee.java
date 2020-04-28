@@ -49,4 +49,7 @@ public class Employee extends BaseAuditEntity {
 
   @Column(name = "EMPLOYEE_TYPE")
   private EmployeeType employeeType;
+
+  @Column(name = "IMAGE_DATA")
+  private String imageData;
 }

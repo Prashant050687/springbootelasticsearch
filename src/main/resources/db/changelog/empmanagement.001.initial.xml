@@ -77,6 +77,12 @@
 			onUpdate="RESTRICT" referencedColumnNames="ID"
 			referencedTableName="EMPLOYEE" validate="true" />
 	</changeSet>
+	
+	<changeSet author="prashant (generated)" id="1581521125420-8">
+		<addColumn tableName="EMPLOYEE">
+			<column name="IMAGE_PATH" type="VARCHAR2(4000 CHAR)"/>
+		</addColumn>
+	</changeSet>
 
 
 </databaseChangeLog>
