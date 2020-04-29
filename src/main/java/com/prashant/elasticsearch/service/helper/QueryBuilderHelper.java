@@ -5,7 +5,9 @@ import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.springframework.http.HttpStatus;
 
+import com.prashant.elasticsearch.domain.exception.BusinessException;
 import com.prashant.elasticsearch.filter.dto.ESFilterCondition;
 
 public class QueryBuilderHelper {
@@ -39,7 +41,7 @@ public class QueryBuilderHelper {
       case REGEX:
         queryStringBuilder = QueryBuilders.regexpQuery(condition.getFieldName(), condition.getValue1());
       default:
-        throw new IllegalArgumentException("Not supported Operation");
+        throw new BusinessException("Invalid search Operation", "search operation " + condition.getOperation() + "not supported ", HttpStatus.BAD_REQUEST.value());
     }
     return queryStringBuilder;
   }

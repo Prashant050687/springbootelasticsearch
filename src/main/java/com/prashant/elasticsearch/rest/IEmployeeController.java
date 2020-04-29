@@ -57,8 +57,7 @@ public interface IEmployeeController {
         content = @Content(
           mediaType = "application/json",
           schema = @Schema(implementation = ErrorDetail.class)))})
-  ResponseEntity<? extends EmployeeDTO> getEmployeeById(@PathVariable(name = "id") final Long assetId,
-    @RequestParam(name = "employeeType", defaultValue = "STANDARD_EMPLOYEE") final EmployeeType employeeType);
+  ResponseEntity<? extends EmployeeDTO> getEmployeeById(@PathVariable(name = "id") final Long assetId);
 
   @Operation(
     summary = "Save Employee",

@@ -2,6 +2,7 @@ package com.prashant.elasticsearch.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -24,9 +25,11 @@ public class EmployeeDTO extends BaseAuditDTO implements Serializable {
   private Long id;
 
   @NotNull(message = "First Name cannot be null")
+  @NotBlank(message = "First Name cannot be Empty")
   private String firstName;
 
   @NotNull(message = "Last Name cannot be null")
+  @NotBlank(message = "Last Name cannot be Empty")
   private String lastName;
 
   private Double salary;

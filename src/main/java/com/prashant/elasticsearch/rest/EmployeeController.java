@@ -54,9 +54,12 @@ public class EmployeeController implements IEmployeeController {
 
   @Override
   @GetMapping(value = "/{id}")
-  public ResponseEntity<? extends EmployeeDTO> getEmployeeById(@PathVariable(name = "id") final Long id,
-    @RequestParam(name = "employeeType", defaultValue = "STANDARD_EMPLOYEE") final EmployeeType employeeType) {
-    return ResponseEntity.ok(getEmployeeService(employeeType).getEmployeeById(id));
+  public ResponseEntity<? extends EmployeeDTO> getEmployeeById(@PathVariable(name = "id") final Long id) {
+    EmployeeDTO employee = getEmployeeService(EmployeeType.STANDARD_EMPLOYEE).getEmployeeById(id);
+    if (employee.getEmployeeType().equals(EmployeeType.PROJECT_LEADER)) {
+      return ResponseEntity.ok(getEmployeeService(EmployeeType.PROJECT_LEADER).getEmployeeById(id));
+    }
+    return ResponseEntity.ok(employee);
   }
 
   @Override
