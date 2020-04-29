@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "type": "Permanent"
+  },
+  {
+    "id": 2,
+    "type": "Contractual"
+  },
+  {
+    "id": 3,
+    "type": "Intern"
+  },
+  {
+    "id": 4,
+    "type": "Part-time"
+  }
+]

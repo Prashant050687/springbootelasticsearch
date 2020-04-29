@@ -1,0 +1,13 @@
+.page-holder {
+  min-height: 85vh;
+}
+
+.bg-cover {
+  background-size: cover !important;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+}
