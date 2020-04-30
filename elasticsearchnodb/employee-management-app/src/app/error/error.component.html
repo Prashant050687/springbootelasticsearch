@@ -1,4 +1,4 @@
-<div class="alert alert-danger" *ngIf="error" role="alert">
+<div class="alert alert-danger" *ngIf="errorDetail" role="alert">
   <div class="text-right">
     <button
       type="button"
@@ -15,7 +15,7 @@
   </p>
   <p>{{ errorDetail.detail }}</p>
 
-  <div *ngIf="errorDetail.errors.length > 0">
+  <div *ngIf="errorDetail.errors && errorDetail.errors.length > 0">
     <ul>
       <li *ngFor="let subError of errorDetail.errors">
         <strong>{{ subError.title }}</strong

@@ -29,7 +29,6 @@ export class EmployeeDetailComponent implements OnInit {
 
     this.contractTypes = this.masterDataService.getContractTypes();
 
-
     this.employeeForm = new FormGroup({
 
       'firstName': new FormControl(null, [Validators.required]),
@@ -51,7 +50,6 @@ export class EmployeeDetailComponent implements OnInit {
     });
 
   }
-
 
 
   initFormForEdit() {
@@ -90,11 +88,9 @@ export class EmployeeDetailComponent implements OnInit {
   onSubmit() {
     let contractTypeId = Number(this.employeeForm.value['contractType']);
 
-    let contractType = this.contractTypes.find((contractType: ContractTypeDTO) => contractType.id == contractTypeId);
-
     let employee: EmployeeDTO = Object.assign(this.employeeForm.value);
+    employee.contractType = this.fetchContractType(contractTypeId);
 
-    employee.contractType = contractType;
     if (this.selectedEmployee) {
       employee.id = this.selectedEmployee.id;
       employee.version = this.selectedEmployee.version;
@@ -107,6 +103,7 @@ export class EmployeeDetailComponent implements OnInit {
     })
   }
 
+
   onDelete() {
     this.employeeService.deleteEmployee(this.selectedEmployee.id, this.selectedEmployee.employeeType);
     this.router.navigate(['/employees']);
@@ -115,4 +112,9 @@ export class EmployeeDetailComponent implements OnInit {
   getFormControls(controlName: string) {
     return this.employeeForm.controls[controlName];
   }
+
+  fetchContractType(contractTypeId: number): ContractTypeDTO {
+    return this.contractTypes.find((contractType: ContractTypeDTO) => contractType.id == contractTypeId);
+  }
+
 }

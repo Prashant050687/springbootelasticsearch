@@ -18,26 +18,30 @@ export class LoggingInterceptorService implements HttpInterceptor {
 
 
         //generic error handling
-        return next.handle(req).pipe(
-            tap(event => {
-                if (event.type === HttpEventType.Response) {
-                    /*   console.log(' Incoming Response :');
-                      console.log('-------------Response Body----------- ');
-                      console.log(event.body);
-                      console.log('------------------------ ');
-                      console.log('Status: ' + event.status); */
-                }
+        return next.handle(req)
+            .pipe(
+                tap(event => {
+                    if (event.type === HttpEventType.Response) {
+                        /*   console.log(' Incoming Response :');
+                          console.log('-------------Response Body----------- ');
+                          console.log(event.body);
+                          console.log('------------------------ ');
+                          console.log('Status: ' + event.status); */
+                    }
 
-            }),
-            //generic error handling
-            catchError((error: HttpErrorResponse) => {
+                }),
+                //generic error handling
+                catchError((error: HttpErrorResponse) => {
 
-                console.log('-------------Response Error----------- ');
-                console.log(error);
-                console.log('------------------------ ');
-                this.errorService.brodcastError(error);
-                return throwError(error);
-            })
-        );
+                    //console.log('-------------Response Error----------- ');
+                    console.log(error);
+                    // console.log('------------------------ ');
+                    //handle error such that this will be picked up by the error component and rethrow 
+                    //so that the components subscribing to the observable can write custom code for error 
+                    //handling like stopping progress bar, resetting component state etc.
+                    this.errorService.brodcastError(error);
+                    return throwError(error);
+                })
+            );
     }
 }
