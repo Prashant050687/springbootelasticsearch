@@ -1,0 +1,44 @@
+server:
+  port: ${SERVICE_PORT:7001}
+  
+elasticsearch:
+  clustername: elasticsearch
+  host: localhost
+  port: 9300
+  indexName: employee_index
+
+spring:
+  data:
+    elasticsearch:
+      properties:
+        index:
+          search:
+            slowlog:
+              threshold:
+                query:
+                  info: 1ms
+       
+security:
+  ignored:
+    - /swagger-ui.html
+    - /webjars/**
+    - /swagger-resources/**
+    - /images/**
+    - /css/**
+    - /v2/**
+    - /actuator/**
+
+      
+logging:
+   level:
+      org:
+         springframework:
+            web: INFO
+            data:
+              elasticsearch:
+                core: DEBUG
+                index:
+                  search:
+                    showlog:
+                      query: INFO
+         hibernate: INFO

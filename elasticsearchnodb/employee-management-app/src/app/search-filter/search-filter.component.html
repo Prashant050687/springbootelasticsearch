@@ -1,0 +1,119 @@
+<div class="container">
+  <div class="row text-left">
+    <div class="col-3">
+      <span class="font-weight-bold">Search Field</span>
+    </div>
+
+    <div class="col-3">
+      <span class="font-weight-bold">Operators</span>
+    </div>
+
+    <div class="col-3">
+      <span class="font-weight-bold"> Value 1</span>
+    </div>
+
+    <div class="col-3">
+      <span class="font-weight-bold"> Value 2</span>
+    </div>
+  </div>
+  <hr />
+
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-12" formArrayName="searchCriterias">
+        <div
+          class="form-row pb-3"
+          *ngFor="let criteria of getControls(); let i = index"
+          [formGroupName]="i"
+        >
+          <div class="col-3">
+            <select
+              id="criteria"
+              class="form-control form-control-sm"
+              formControlName="criteria"
+            >
+              <option value="firstName">First Name</option>
+              <option value="lastName">Last Name</option>
+              <option value="salary">Salary</option>
+              <option value="employeeType">Employee Type</option>
+              <option value="contractType">Contract Type</option>
+            </select>
+          </div>
+          <div class="col-3">
+            <select
+              id="operation"
+              class="form-control form-control-sm"
+              formControlName="operation"
+            >
+              <option value="EQ">Equal To</option>
+              <option value="GT">Greater Than</option>
+              <option value="LT">Less Than</option>
+              <option value="BETWEEN">Between</option>
+              <option value="LIKE">Like</option>
+              <option value="STARTS_WITH">Starts With</option>
+              <option value="REGEX">Regular expression</option>
+              <option value="Test">Test</option>
+            </select>
+          </div>
+          <div class="col-3">
+            <input
+              type="text"
+              id="searchCriteriaValue1"
+              class="form-control form-control-sm"
+              formControlName="searchCriteriaValue1"
+            />
+          </div>
+          <div class="col-2">
+            <input
+              type="text"
+              id="searchCriteriaValue2"
+              class="form-control form-control-sm"
+              formControlName="searchCriteriaValue2"
+            />
+          </div>
+          <div class="col-1">
+            <button
+              type="button"
+              class="btn btn-danger btn-sm"
+              id="delete"
+              (click)="onRemoveCriteria(i)"
+            >
+              X
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pl-3">
+      <div class="btn-toolbar">
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="!isFormValid()"
+        >
+          Search
+        </button>
+      </div>
+      <div class="row pl-4 pr-4">
+        <button
+          class="btn btn-secondary btn-sm"
+          type="button"
+          (click)="onAddCriteria()"
+        >
+          Add Criteria
+        </button>
+      </div>
+
+      <div class="row pl-3">
+        <button
+          class="btn btn-secondary btn-sm"
+          type="button"
+          (click)="onClearCriteria()"
+        >
+          Clear Criteria
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

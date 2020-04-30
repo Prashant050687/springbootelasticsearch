@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.6.RELEASE</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.prashant</groupId>
+	<artifactId>elasticsearchnodb</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>elasticsearchnodb</name>
+	<description>Demo project for Spring Boot,elastic search</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<springfox-swagger.version>2.9.2</springfox-swagger.version>
+		<springdoc>1.2.17</springdoc>
+		<oracle.version>12.1.0.2</oracle.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+
+			<exclusions>
+
+
+				<exclusion>
+
+					<groupId>org.junit.vintage</groupId>
+
+					<artifactId>junit-vintage-engine</artifactId>
+
+				</exclusion>
+
+			</exclusions>
+
+		</dependency>
+
+		<!--************************SWAGGER START************************ -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>${springdoc}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-data-rest</artifactId>
+			<version>${springdoc}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+
+	
+		<!--Allows to use such classes like Page, Pageable, Sort, etc. -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+		</dependency>
+
+		
+		<!-- Allows to register converter to convert LocalDateTime to String and 
+			vice vert -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<!-- version>2.9.6</version -->
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>milestone</name>
+			<url>https://repo.spring.io/milestone</url>
+		</repository>
+		<repository>
+			<id>apache</id>
+			<name>apache</name>
+			<url>https://repo.maven.apache.org/maven2/</url>
+		</repository>
+
+
+	</repositories>
+
+	<profiles>
+		<profile>
+			<id>liquibase-change-log-local</id>
+			<activation>
+				<property>
+					<name>localChangeset</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase.version}</version>
+						<configuration>
+							<propertyFile>src/main/resources/liquibase.properties</propertyFile>
+						</configuration>
+						<dependencies>
+						<dependency>
+							<groupId>com.oracle</groupId>
+							<artifactId>ojdbc7</artifactId>
+							<version>${oracle.version}</version>
+						</dependency>
+					</dependencies>
+					</plugin>
+				</plugins>
+
+
+			</build>
+		</profile>
+	</profiles>
+
+
+</project>

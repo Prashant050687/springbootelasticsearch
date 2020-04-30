@@ -1,0 +1,59 @@
+{
+  "content": [
+    {
+      "version": 0,
+      "modifiedDate": null,
+      "createdDate": "2020-04-06",
+      "id": 12,
+      "firstName": "Project2",
+      "lastName": "Leader2",
+      "salary": 3000.11,
+      "contractType": {
+        "id": 1,
+        "type": "Permanent"
+      },
+      "employeeType": "PROJECT_LEADER",
+      "projectName": "Test",
+      "reportingEmployees": 50
+    },
+    {
+      "version": 0,
+      "modifiedDate": null,
+      "createdDate": "2020-04-06",
+      "id": 13,
+      "firstName": "Test",
+      "lastName": "Employee",
+      "salary": 2000,
+      "contractType": {
+        "id": 1,
+        "type": "Permanent"
+      },
+      "employeeType": "STANDARD_EMPLOYEE"
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "sorted": true,
+      "unsorted": false,
+      "empty": false
+    },
+    "offset": 2,
+    "pageSize": 2,
+    "pageNumber": 1,
+    "paged": true,
+    "unpaged": false
+  },
+  "totalElements": 4,
+  "totalPages": 2,
+  "last": true,
+  "size": 2,
+  "number": 1,
+  "sort": {
+    "sorted": true,
+    "unsorted": false,
+    "empty": false
+  },
+  "numberOfElements": 2,
+  "first": false,
+  "empty": false
+}

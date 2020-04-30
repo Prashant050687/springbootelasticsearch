@@ -1,0 +1,26 @@
+<div class="alert alert-danger" *ngIf="error" role="alert">
+  <div class="text-right">
+    <button
+      type="button"
+      class="close"
+      data-dismiss="alert"
+      (click)="onHandleError()"
+    >
+      &times;
+    </button>
+  </div>
+
+  <p>
+    <strong>{{ errorDetail.title }}</strong>
+  </p>
+  <p>{{ errorDetail.detail }}</p>
+
+  <div *ngIf="errorDetail.errors.length > 0">
+    <ul>
+      <li *ngFor="let subError of errorDetail.errors">
+        <strong>{{ subError.title }}</strong
+        >: {{ subError.detail }}
+      </li>
+    </ul>
+  </div>
+</div>

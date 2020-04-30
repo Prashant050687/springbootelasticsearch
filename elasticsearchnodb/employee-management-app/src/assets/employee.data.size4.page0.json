@@ -1,0 +1,91 @@
+{
+  "content": [
+    {
+      "version": 0,
+      "modifiedDate": null,
+      "createdDate": "2020-04-06",
+      "id": 10,
+      "firstName": "Christian",
+      "lastName": "Pearson",
+      "salary": 3000.11,
+      "contractType": {
+        "id": 2,
+        "type": "Contractual"
+      },
+      "employeeType": "PROJECT_LEADER",
+      "projectName": "Test_1234",
+      "reportingEmployees": 1
+    },
+    {
+      "version": 0,
+      "modifiedDate": null,
+      "createdDate": "2020-04-06",
+      "id": 11,
+      "firstName": "Project",
+      "lastName": "Leader",
+      "salary": 3000.11,
+      "contractType": {
+        "id": 1,
+        "type": "Permanent"
+      },
+      "employeeType": "PROJECT_LEADER",
+      "projectName": "Test_1234",
+      "reportingEmployees": 100
+    },
+    {
+      "version": 0,
+      "modifiedDate": null,
+      "createdDate": "2020-04-06",
+      "id": 12,
+      "firstName": "Project2",
+      "lastName": "Leader2",
+      "salary": 3000.11,
+      "contractType": {
+        "id": 1,
+        "type": "Permanent"
+      },
+      "employeeType": "PROJECT_LEADER",
+      "projectName": "Test",
+      "reportingEmployees": 50
+    },
+    {
+      "version": 0,
+      "modifiedDate": null,
+      "createdDate": "2020-04-06",
+      "id": 13,
+      "firstName": "Test",
+      "lastName": "Employee",
+      "salary": 2000,
+      "contractType": {
+        "id": 1,
+        "type": "Permanent"
+      },
+      "employeeType": "STANDARD_EMPLOYEE"
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "sorted": true,
+      "unsorted": false,
+      "empty": false
+    },
+    "offset": 2,
+    "pageSize": 2,
+    "pageNumber": 0,
+    "paged": true,
+    "unpaged": false
+  },
+  "totalElements": 4,
+  "totalPages": 1,
+  "last": true,
+  "size": 4,
+  "number": 1,
+  "sort": {
+    "sorted": true,
+    "unsorted": false,
+    "empty": false
+  },
+  "numberOfElements": 4,
+  "first": true,
+  "empty": false
+}

@@ -1,0 +1,96 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { EmployeeService } from '../service/employee.service';
+import { EmployeeDTO } from '../models/employee.model';
+
+import { Router } from '@angular/router';
+import { EmployeePageable } from '../models/employee.pageable.model';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+
+
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { SearchCriteria } from 'src/app/shared/models/search.criteria';
+import { Subscription } from 'rxjs';
+
+@Component({
+  selector: 'app-employee-list',
+  templateUrl: './employee-list.component.html',
+  styleUrls: ['./employee-list.component.css'],
+})
+export class EmployeeListComponent implements OnInit, OnDestroy {
+
+  paginationConfig: any;
+  pageSize: number = 4;
+  currentPage: number = 1;
+  searchTriggered = false;
+
+  subscription: Subscription;
+  searchCriteria: SearchCriteria;
+
+  employeesPageable: EmployeePageable;
+
+  constructor(private employeeService: EmployeeService, private router: Router,
+    private ngxLoader: NgxUiLoaderService, private modalService: NgbModal
+  ) { }
+
+  ngOnInit(): void {
+    this.ngxLoader.start();
+    this.subscription = this.employeeService.searchCriteriaEmitter.subscribe((searchCriteria: SearchCriteria) => {
+      this.searchCriteria = searchCriteria;
+      this.searchTriggered = true;
+      this.getEmployeeBasedonPageNumber(0);
+
+    })
+
+    //Reload from first page
+    if (!this.searchTriggered) {
+      this.getEmployeeBasedonPageNumber(0);
+    }
+
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+
+  onPaginationSelect(pageSize: number) {
+    this.pageSize = pageSize;
+
+    //Reload from first page
+    this.getEmployeeBasedonPageNumber(0);
+  }
+
+
+  pageChanged(pageNo: number) {
+    console.log('Event ' + pageNo);
+    this.currentPage = pageNo;
+    this.paginationConfig.currentPage = this.currentPage;
+    this.getEmployeeBasedonPageNumber((this.currentPage - 1));
+  }
+
+  getEmployeeBasedonPageNumber(page: number): void {
+
+    this.employeeService.getAllEmployeesPageable({ pageNumber: page, pageSize: this.pageSize }, this.searchCriteria)
+      .subscribe((data: EmployeePageable) => {
+        this.employeesPageable = data;
+
+        this.paginationConfig = {
+          itemsPerPage: this.pageSize,
+          currentPage: this.currentPage,
+          totalItems: this.employeesPageable.totalElements
+        };
+        this.ngxLoader.stop();
+      }, error => {
+        this.ngxLoader.stop();
+      });
+
+  }
+
+  onEmployeeSelect(id: string) {
+    let selectedEmployee = this.employeesPageable.content.find((employee: EmployeeDTO) => employee.id == id);
+    this.router.navigate(['/employeedetails/' + id]);
+  }
+
+
+}
