@@ -1,12 +1,9 @@
 package com.prashant.elasticsearch.service;
 
-import java.util.List;
-
 import org.elasticsearch.index.query.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
@@ -21,9 +18,6 @@ import com.prashant.elasticsearch.service.helper.FilterBuilderHelper;
 public class EmployeeESService {
 
   private final EmployeeESRepo employeeESRepo;
-
-  @Autowired
-  private ElasticsearchTemplate elasticSearchTemplate;
 
   @Autowired
   public EmployeeESService(EmployeeESRepo employeeESRepo) {
@@ -45,18 +39,6 @@ public class EmployeeESService {
   public void deleteEmployee(String id) {
     EmployeeDTO employee = findById(id);
     employeeESRepo.delete(employee);
-  }
-
-  /**
-   * Returns list of records matching the search criteria
-   * @param esSearchFilter
-   * @return List<EmployeeES>
-   */
-  public List<EmployeeDTO> searchEmployeeByCriteria(ESSearchFilter esSearchFilter) {
-    QueryBuilder query = FilterBuilderHelper.build(esSearchFilter);
-    NativeSearchQuery nativeSearchQuery = new NativeSearchQueryBuilder().withQuery(query).build();
-
-    return elasticSearchTemplate.queryForList(nativeSearchQuery, EmployeeDTO.class);
   }
 
   /**

@@ -59,14 +59,13 @@ class ElasticsearchApplicationTest {
     // Search using criteria
     ESSearchFilter esSearchFilter = buildSearchCriteria();
 
-    List<EmployeeDTO> employees = esService.searchEmployeeByCriteria(esSearchFilter);
-
-    assertEquals("Preshant", employees.get(0).getFirstName());
+    // List<EmployeeDTO> employees = esService.searchEmployeeByCriteria(esSearchFilter);
 
     // search using pagination and criteria
     Pageable pageable = PageRequest.of(0, 10, Sort.by("id"));
 
     Page<EmployeeDTO> employeePageable = esService.searchEmployeeByCriteria(esSearchFilter, pageable);
+    assertEquals("Preshant", employeePageable.getContent().get(0).getFirstName());
     System.out.println(employeePageable.getContent().get(0).getCreatedDate());
 
   }
