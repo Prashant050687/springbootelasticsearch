@@ -3,8 +3,8 @@ server:
   
 elasticsearch:
   clustername: elasticsearch
-  host: localhost
-  port: 9300
+  #host: <aws-elastic-search-service-url>
+  host: http://localhost:9200
   indexName: employee_index
 
 #Datasource configuration
