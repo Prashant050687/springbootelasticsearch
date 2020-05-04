@@ -1,11 +1,14 @@
 package com.prashant.elasticsearch.service;
 
+import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
 import com.prashant.elasticsearch.domain.exception.ResourceNotFoundException;
@@ -60,19 +63,18 @@ public class EmployeeESService {
 
   }
 
-  /*
-   * public List<EmployeeES> getEmployeeSearchData(String input) {
-   * String search = ".*" + input + ".*";
-   * SearchQuery searchQuery = new NativeSearchQueryBuilder().withFilter(QueryBuilders.regexpQuery("firstName", search)).build();
-   * return elasticSearchTemplate.queryForList(searchQuery, EmployeeES.class);
-   * }
-   * 
-   * public List<EmployeeES> getMultiMatchSearch(String input) {
-   * 
-   * SearchQuery searchQuery = new NativeSearchQueryBuilder()
-   * .withQuery(QueryBuilders.multiMatchQuery(input).field("firstName").field("lastName").type(MultiMatchQueryBuilder.Type.BEST_FIELDS)).
-   * build();
-   * return elasticSearchTemplate.queryForList(searchQuery, EmployeeES.class);
-   * }
-   */
+  public Page<EmployeeDTO> getMultiMatchSearch(String input, Pageable pageable) {
+
+    SearchQuery searchQuery = new NativeSearchQueryBuilder()
+      .withPageable(pageable)
+      .withQuery(QueryBuilders.multiMatchQuery(input)
+        .field("firstName")
+        .field("lastName")
+        .field("contractType.type")
+        .field("employeeType")
+        .type(MultiMatchQueryBuilder.Type.BEST_FIELDS))
+      .build();
+    return employeeESRepo.search(searchQuery);
+  }
+
 }

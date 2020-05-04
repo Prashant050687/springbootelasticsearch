@@ -96,4 +96,10 @@ public class EmployeeController implements IEmployeeController {
     return ResponseEntity.ok(contractTypes);
   }
 
+  @Override
+  @PostMapping(value = "/multisearch")
+  public ResponseEntity<Page<EmployeeDTO>> searchEmployeesMultiMatch(Pageable pageable, String searchString) {
+    return ResponseEntity.ok(employeeESService.getMultiMatchSearch(searchString, pageable));
+  }
+
 }

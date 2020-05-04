@@ -124,4 +124,32 @@ public interface IEmployeeController {
   ResponseEntity<Page<EmployeeDTO>> searchEmployees(@Parameter(hidden = true) @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
     @RequestBody ESSearchFilter esSearchFilter);
 
+  @Operation(
+    summary = "Search Employees Multi Match ",
+    description = "Allow to perform multimatch employee  search in Elastic search (with pagination)",
+    method = "POST",
+    parameters = {
+      @Parameter(name = "page", in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "0"),
+        description = "Results page you want to retrieve (0..N)"),
+      @Parameter(name = "size", in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "10"),
+        description = "Number of records per page. "),
+      @Parameter(name = "sort", in = ParameterIn.QUERY, schema = @Schema(type = "string", defaultValue = "id,asc"),
+        description = "Sorting criteria in the format: property,asc|dec. " +
+          "Default sort order is ascending.")
+    },
+    requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json",
+      schema = @Schema(implementation = String.class)),
+      required = true),
+    responses = {
+      @ApiResponse(responseCode = "200", description = "Successfully Searched Employee data",
+        content = @Content(
+          mediaType = "application/json",
+          schema = @Schema(implementation = EmployeeDTO.class))),
+      @ApiResponse(responseCode = "4xx", description = "Error retrieving Employee data",
+        content = @Content(
+          mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDetail.class)))})
+  ResponseEntity<Page<EmployeeDTO>> searchEmployeesMultiMatch(@Parameter(hidden = true) @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
+    @RequestBody String searchString);
+
 }
