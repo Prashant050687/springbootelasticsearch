@@ -18,12 +18,12 @@ export class MasterDataLoaderService {
 
     load() {
         const promise = new Promise((resolve, reject) => {
-            const url = 'http://localhost:7001/employee/contractTypes';
+            const url = 'http://localhost:7001/employee/contracTypes';
             //const url = 'assets/contract.type.data.json';
 
             //convert observable to promise
             //promise.then is used to process the data, and it takes two arguments, respose and error
-            this.http.get<ContractTypeDTO>(url).toPromise().then((response: any) => {
+            this.http.get<ContractTypeDTO[]>(url).toPromise().then((response: any) => {
                 //Success
                 this.contractTypes = response;
                 resolve();

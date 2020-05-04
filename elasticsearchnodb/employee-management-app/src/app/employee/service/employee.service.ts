@@ -11,6 +11,8 @@ import { Pageable } from '../../shared/models/pageable.model';
 import { SearchCriteria } from 'src/app/shared/models/search.criteria';
 import { EmployeeType } from '../models/employee.type.model';
 
+import { environment } from '../../../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -31,7 +33,7 @@ export class EmployeeService {
     pageableParams = pageableParams.append('page', String(pageable.pageNumber));
     pageableParams = pageableParams.append('size', String(pageable.pageSize));
 
-    const url = 'http://localhost:7001/employee/search';
+    const url = environment.backendBaseUrl + 'employee/search';
     // let fileName = 'assets/employee.data.size' + pageable.pageSize + '.' + 'page' + pageable.pageNumber + '.json';
     return this.http.post<EmployeePageable>(url, searchCriteria, {
       params: pageableParams
@@ -41,7 +43,7 @@ export class EmployeeService {
   }
 
   saveEmployee(employee: EmployeeDTO, employeeType: EmployeeType): Observable<EmployeeDTO> {
-    const url = 'http://localhost:7001/employee/';
+    const url = environment.backendBaseUrl + 'employee/';
     let employeeTypeParams = new HttpParams();
     employeeTypeParams = employeeTypeParams.append('employeeType', employeeType);
     return this.http.post<EmployeeDTO>(url, employee, {
@@ -51,7 +53,7 @@ export class EmployeeService {
   }
 
   deleteEmployee(id: string, employeeType: EmployeeType) {
-    const url = 'http://localhost:7001/employee/' + id;
+    const url = environment.backendBaseUrl + 'employee/' + id;
     let employeeTypeParams = new HttpParams();
     employeeTypeParams = employeeTypeParams.append('employeeType', employeeType);
     return this.http.delete(url).subscribe(response => {
@@ -60,7 +62,7 @@ export class EmployeeService {
   }
 
   getEmployeeById(id: string): Observable<EmployeeDTO> {
-    const url = 'http://localhost:7001/employee/' + id;
+    const url = environment.backendBaseUrl + 'employee/' + id;
     return this.http.get<EmployeeDTO>(url);
     //return of(this.employees.find((employee: EmployeeDTO) => employee.id == id));
   }
