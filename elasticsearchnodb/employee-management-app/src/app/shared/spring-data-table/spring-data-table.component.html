@@ -1,0 +1,47 @@
+<div class="row col-12 table-responsive pl-4 pt-3" *ngIf="!error">
+  <div class="row col-1 pl-3">
+    <select
+      id="PerPage"
+      class="form-control form-control-sm"
+      [(ngModel)]="pageSize"
+      (ngModelChange)="onPaginationSizeChangeSelect($event)"
+    >
+      <option
+        *ngFor="let pageOption of pageSizeOptions"
+        value="{{ pageOption }}"
+        >{{ pageOption }}</option
+      >
+    </select>
+  </div>
+  <br />
+  <table id="example2" class="table table-striped table-bordered pl-3">
+    <thead class="thead-dark">
+      <tr>
+        <th *ngFor="let column of tableHeaders">{{ column }}</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="data?.content">
+      <tr
+        style="cursor: pointer;"
+        *ngFor="let record of data.content | paginate: paginationConfig"
+      >
+        <td *ngFor="let key of dataKeys" (click)="onRowSelect(record)">
+          {{ getCellData(record, key) | trimpipe }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row pl-3">
+    <div class="col-4 pl-0">
+      <!-- <p *ngIf="data?.content">Total Records: {{ data.totalElements }}</p> -->
+      <span *ngIf="data?.content" class="badge badge-dark"
+        >Total Records: {{ data.totalElements }}</span
+      >
+    </div>
+    <div class="col-8">
+      <pagination-controls
+        (pageChange)="pageChanged($event)"
+      ></pagination-controls>
+    </div>
+  </div>
+</div>

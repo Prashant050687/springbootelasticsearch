@@ -25,6 +25,8 @@ import { MasterDataLoaderService } from './shared/service/master-data-loader-ser
 import { TrimpipePipe } from './shared/pipes/trimpipe.pipe';
 import { LoggingInterceptorService } from './shared/interceptors/logging-interceptor.service';
 import { ErrorComponent } from './error/error.component';
+import { AuthComponent } from './auth/auth.component';
+import { SpringDataTableComponent } from './shared/spring-data-table/spring-data-table.component';
 
 
 
@@ -45,7 +47,9 @@ export function masterDataProviderFactory(provider: MasterDataLoaderService) {
     PageNotFoundComponent,
     EmployeeComponent,
     TrimpipePipe,
-    ErrorComponent
+    ErrorComponent,
+    AuthComponent,
+    SpringDataTableComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgxPaginationModule,
     FormsModule, NgxUiLoaderModule, ReactiveFormsModule, NgbModule],

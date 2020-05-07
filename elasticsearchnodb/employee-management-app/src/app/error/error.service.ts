@@ -14,13 +14,9 @@ export class ErrorService {
     let errorDetail: ErrorDetail;
     if (errorResponse.error && errorResponse.error instanceof ErrorDetail) {
       errorDetail = errorResponse.error;
-
-    } else {
-      errorDetail = new ErrorDetail();
-      errorDetail.title = 'An Unknown Error has occured!';
-      errorDetail.detail = errorResponse.message;
+      this.errorSubject.next(errorDetail);
     }
-    this.errorSubject.next(errorDetail);
+
   }
 
   constructor() { }

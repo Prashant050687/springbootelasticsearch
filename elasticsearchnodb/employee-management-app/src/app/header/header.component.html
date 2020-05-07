@@ -18,11 +18,26 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item" routerLinkActive="active">
+      <li class="nav-item" routerLinkActive="active" *ngIf="!isAuthenticated">
+        <a class="nav-link" routerLink="/auth">Login</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active" *ngIf="isAuthenticated">
         <a class="nav-link" routerLink="/employees">Employees</a>
       </li>
-      <li class="nav-item" routerLinkActive="active">
+      <li class="nav-item" routerLinkActive="active" *ngIf="isAuthenticated">
         <a class="nav-link" routerLink="/newemployee"> New Employee</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item" *ngIf="isAuthenticated" (click)="onLogout()">
+        <a class="nav-link" style="cursor: pointer;"
+          ><img
+            src="../../assets/images/logout.png"
+            width="30"
+            height="30"
+            alt="Logout"
+          />
+        </a>
       </li>
     </ul>
   </div>

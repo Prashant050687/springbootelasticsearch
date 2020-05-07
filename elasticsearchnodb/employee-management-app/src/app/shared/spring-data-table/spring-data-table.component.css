@@ -1,0 +1,14 @@
+.pagination-right {
+  text-align: right;
+}
+
+.pagination-center {
+  text-align: center;
+  justify-content: center;
+}
+
+@media only screen and (max-device-width: 1200px) {
+  .col-1 {
+    max-width: 40%;
+  }
+}
