@@ -2,6 +2,7 @@
   <ngx-ui-loader></ngx-ui-loader>
 
   <spring-data-table
+    [componentId]="'employee'"
     (rowSelect)="onEmployeeSelect($event)"
     [tableHeaders]="['First Name', 'Last Name', 'Salary', 'Type', 'Contract']"
     [dataKeys]="[

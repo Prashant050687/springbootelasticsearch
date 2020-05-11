@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from './error.service';
 import { Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+
 import { ErrorDetail } from './error.detail.model';
 
 @Component({

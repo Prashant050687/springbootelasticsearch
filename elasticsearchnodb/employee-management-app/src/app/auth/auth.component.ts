@@ -12,7 +12,6 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 })
 export class AuthComponent implements OnInit {
   isLoginMode = true;
-
   error: string = null;
 
   constructor(private authService: AuthService, private router: Router, private ngxLoader: NgxUiLoaderService, ) { }
@@ -32,14 +31,12 @@ export class AuthComponent implements OnInit {
 
     this.ngxLoader.start();
 
-
     if (!this.isLoginMode) {
       this.processRegisterUser(form);
 
     } else {
       this.processSignIn(form);
     }
-
     form.reset();
   }
 
@@ -65,6 +62,5 @@ export class AuthComponent implements OnInit {
         this.ngxLoader.stop();
       });
   }
-
 
 }

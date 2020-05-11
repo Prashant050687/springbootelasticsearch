@@ -12,6 +12,7 @@ import { SearchCriteria } from 'src/app/shared/models/search.criteria';
 import { EmployeeType } from '../models/employee.type.model';
 
 import { environment } from '../../../environments/environment';
+import { tap, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +38,9 @@ export class EmployeeService {
     // let fileName = 'assets/employee.data.size' + pageable.pageSize + '.' + 'page' + pageable.pageNumber + '.json';
     return this.http.post<EmployeePageable>(url, searchCriteria, {
       params: pageableParams
-    });
+    }).pipe(map(employee => {
+      return new EmployeePageable(employee.totalElements, employee.pageable, employee.content);
+    }));
 
 
   }

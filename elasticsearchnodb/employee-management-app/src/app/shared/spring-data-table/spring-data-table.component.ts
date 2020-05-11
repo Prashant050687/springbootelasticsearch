@@ -15,6 +15,9 @@ export class SpringDataTableComponent implements OnInit, OnChanges {
   error: Error = null;
 
   /** Mandatory Attribute: Provides the heading columns for the table. */
+  @Input() componentId: string;
+
+  /** Mandatory Attribute: Provides the heading columns for the table. */
   @Input() tableHeaders: Array<string>;
   /** Mandatory Attribute: This will be used as key to fetch the data from the object using the specified key */
   @Input() dataKeys: Array<string>;
@@ -37,6 +40,7 @@ export class SpringDataTableComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit(): void {
+    this.checkRequiredFields(this.componentId, 'componentId');
     this.checkRequiredFields(this.tableHeaders, 'tableHeaders');
     this.checkRequiredFields(this.dataKeys, 'dataKeys');
     this.checkRequiredFields(this.pageSize, 'pageSize');
@@ -54,12 +58,18 @@ export class SpringDataTableComponent implements OnInit, OnChanges {
 
     if (this.data) {
 
-      this.paginationConfig = {
-        itemsPerPage: this.data.pageable.pageSize,
-        currentPage: (this.data.pageable.pageNumber + 1),
-        totalItems: this.data.totalElements
-      };
+      if (this.data instanceof SpringDataPageableModel) {
+        this.paginationConfig = {
+          itemsPerPage: this.data.pageable.pageSize,
+          currentPage: (this.data.pageable.pageNumber + 1),
+          totalItems: this.data.totalElements
+        };
+      } else {
+        this.error = new Error("Data attribute should be of type SpringDataPageableModel or extend from it ");
+        throw this.error;
+      }
     }
+
 
   }
 
@@ -94,6 +104,11 @@ export class SpringDataTableComponent implements OnInit, OnChanges {
       this.error = new Error("Attribute " + type + " is required");
       throw this.error;
     }
+  }
+
+  generateId(suffix: string) {
+    let upperCaseSuffix = suffix.charAt(0).toLocaleUpperCase() + suffix.slice(1);
+    return this.componentId + upperCaseSuffix;
   }
 
 }

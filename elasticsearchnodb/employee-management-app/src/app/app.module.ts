@@ -11,22 +11,22 @@ import { EmployeeNewComponent } from './employee/employee-new/employee-new.compo
 import { HeaderComponent } from './header/header.component';
 import { SearchFilterComponent } from './search-filter/search-filter.component';
 import { HomeComponent } from './home/home.component';
-import { NgxPaginationModule } from 'ngx-pagination';
+
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { EmployeeComponent } from './employee/employee.component';
 
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { EmployeeDetailResolver } from './employee/employee-detail/employee-detail-resolver.service';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MasterDataLoaderService } from './shared/service/master-data-loader-service';
-import { TrimpipePipe } from './shared/pipes/trimpipe.pipe';
+
 import { LoggingInterceptorService } from './shared/interceptors/logging-interceptor.service';
 import { ErrorComponent } from './error/error.component';
 import { AuthComponent } from './auth/auth.component';
-import { SpringDataTableComponent } from './shared/spring-data-table/spring-data-table.component';
+import { SpringDataTableModule } from './shared/spring-data-table/spring-data-table-module';
+
 
 
 
@@ -46,13 +46,12 @@ export function masterDataProviderFactory(provider: MasterDataLoaderService) {
     HomeComponent,
     PageNotFoundComponent,
     EmployeeComponent,
-    TrimpipePipe,
     ErrorComponent,
     AuthComponent,
-    SpringDataTableComponent
+
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgxPaginationModule,
-    FormsModule, NgxUiLoaderModule, ReactiveFormsModule, NgbModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule,
+    FormsModule, NgxUiLoaderModule, ReactiveFormsModule, NgbModule, SpringDataTableModule],
   providers: [NgxUiLoaderService, MasterDataLoaderService,
     { provide: APP_INITIALIZER, useFactory: masterDataProviderFactory, deps: [MasterDataLoaderService], multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptorService, multi: true }],
