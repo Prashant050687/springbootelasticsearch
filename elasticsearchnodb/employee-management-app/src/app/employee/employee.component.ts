@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SearchCriteria } from '../shared/models/search.criteria';
-import { SearchCondition } from '../shared/models/search.condition';
-import { EmployeeService } from './service/employee.service';
+
+import { Store } from '@ngrx/store';
+import * as fromApp from '../store/app.reducer';
+
 
 @Component({
     selector: 'app-employee',
@@ -10,14 +11,20 @@ import { EmployeeService } from './service/employee.service';
     styleUrls: ['./employee.component.css'],
 })
 export class EmployeeComponent implements OnInit {
-    searchCriteria: SearchCriteria;
+
+    searchTriggered = false;
+
     ngOnInit(): void {
-        this.employeeService.searchCriteriaEmitter.subscribe((searchCriteria: SearchCriteria) => {
-            this.searchCriteria = searchCriteria;
+        this.store.select('searchFilter').subscribe(searchCriteriaState => {
+            if (searchCriteriaState.searchCriteria) {
+                this.searchTriggered = true;
+            } else {
+                this.searchTriggered = false;
+            }
         })
     }
 
-    constructor(private modalService: NgbModal, private employeeService: EmployeeService) { }
+    constructor(private modalService: NgbModal, private store: Store<fromApp.AppState>) { }
 
     open(content) {
         const modalRef = this.modalService.open(content, { size: 'lg', backdrop: 'static' });

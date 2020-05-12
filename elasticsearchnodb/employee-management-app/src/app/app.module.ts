@@ -26,7 +26,8 @@ import { LoggingInterceptorService } from './shared/interceptors/logging-interce
 import { ErrorComponent } from './error/error.component';
 import { AuthComponent } from './auth/auth.component';
 import { SpringDataTableModule } from './shared/spring-data-table/spring-data-table-module';
-
+import { StoreModule } from '@ngrx/store';
+import * as fromApp from './store/app.reducer';
 
 
 
@@ -49,9 +50,10 @@ export function masterDataProviderFactory(provider: MasterDataLoaderService) {
     ErrorComponent,
     AuthComponent,
 
+
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule,
-    FormsModule, NgxUiLoaderModule, ReactiveFormsModule, NgbModule, SpringDataTableModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, NgxUiLoaderModule, ReactiveFormsModule, NgbModule,
+    SpringDataTableModule, StoreModule.forRoot(fromApp.appReducer)],
   providers: [NgxUiLoaderService, MasterDataLoaderService,
     { provide: APP_INITIALIZER, useFactory: masterDataProviderFactory, deps: [MasterDataLoaderService], multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptorService, multi: true }],

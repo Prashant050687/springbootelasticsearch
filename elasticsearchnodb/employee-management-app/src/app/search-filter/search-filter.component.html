@@ -28,7 +28,7 @@
         >
           <div class="col-3">
             <select
-              id="criteria"
+              id="criteria{{ i }}"
               class="form-control form-control-sm"
               formControlName="criteria"
             >
@@ -41,7 +41,7 @@
           </div>
           <div class="col-3">
             <select
-              id="operation"
+              id="operation{{ i }}"
               class="form-control form-control-sm"
               formControlName="operation"
             >
@@ -57,7 +57,7 @@
           <div class="col-3">
             <input
               type="text"
-              id="searchCriteriaValue1"
+              id="searchCriteriaValue1{{ i }}"
               class="form-control form-control-sm"
               formControlName="searchCriteriaValue1"
             />
@@ -65,7 +65,7 @@
           <div class="col-2">
             <input
               type="text"
-              id="searchCriteriaValue2"
+              id="searchCriteriaValue2{{ i }}"
               class="form-control form-control-sm"
               formControlName="searchCriteriaValue2"
             />
@@ -74,7 +74,7 @@
             <button
               type="button"
               class="btn btn-danger btn-sm"
-              id="delete"
+              id="delete{{ i }}"
               (click)="onRemoveCriteria(i)"
             >
               X

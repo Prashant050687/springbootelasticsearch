@@ -20,6 +20,8 @@ export class EmployeeDetailComponent implements OnInit {
   employeeForm: FormGroup;
 
   saveSuccess = false;
+  saveType: string = 'Saved';
+
 
 
   constructor(private employeeService: EmployeeService, private route: ActivatedRoute,
@@ -100,13 +102,17 @@ export class EmployeeDetailComponent implements OnInit {
       this.selectedEmployee = employeeDTO;
       this.initFormForEdit();
       this.saveSuccess = true;
+      this.saveType = 'Saved';
     })
   }
 
 
   onDelete() {
     this.employeeService.deleteEmployee(this.selectedEmployee.id, this.selectedEmployee.employeeType);
-    this.router.navigate(['/employees']);
+    this.employeeForm.reset();
+
+    this.saveSuccess = true;
+    this.saveType = 'Deleted';
   }
 
   getFormControls(controlName: string) {

@@ -5,6 +5,11 @@ import { SearchCriteria } from '../shared/models/search.criteria';
 import { SearchCondition } from '../shared/models/search.condition';
 import { EmployeeService } from '../employee/service/employee.service';
 
+import { Store } from '@ngrx/store';
+import * as fromApp from '../store/app.reducer';
+import * as SearchFilterActions from './store/search-filter.actions'
+
+
 @Component({
   selector: 'app-search-filter',
   templateUrl: './search-filter.component.html',
@@ -12,34 +17,49 @@ import { EmployeeService } from '../employee/service/employee.service';
 })
 export class SearchFilterComponent implements OnInit {
 
-  @Input('inputData') searchCriteria: SearchCriteria;
+  searchCriteria: SearchCriteria;
+
   //This will be used to propogate the search/ clear button click to the employee component
   //so that the employee component can close the modal dialog
   @Output() closeDialog = new EventEmitter<boolean>();
 
   searchForm: FormGroup;
-  constructor(private employeeService: EmployeeService) { }
+  constructor(private employeeService: EmployeeService, private store: Store<fromApp.AppState>) { }
 
   ngOnInit(): void {
-
     let searchCriterias = new FormArray([]);
-
     this.searchForm = new FormGroup({
-
       'searchCriterias': searchCriterias
-
     });
 
-    if (this.searchCriteria) {
-      for (let searchCondition of this.searchCriteria.getConditions()) {
-        this.getSearchCriteriaArray().push(new FormGroup({
-          'criteria': new FormControl(searchCondition['fieldName'], [Validators.required]),
-          'operation': new FormControl(searchCondition['operation'], [Validators.required]),
-          'searchCriteriaValue1': new FormControl(searchCondition['value1'], [Validators.required]),
-          'searchCriteriaValue2': new FormControl(searchCondition['value2'])
-        }));
+
+
+    this.store.select('searchFilter').subscribe(searchCriteriaState => {
+      this.searchCriteria = searchCriteriaState.searchCriteria;
+      if (this.searchCriteria) {
+        for (let searchCondition of this.searchCriteria.getConditions()) {
+          this.getSearchCriteriaArray().push(new FormGroup({
+            'criteria': new FormControl(searchCondition['fieldName'], [Validators.required]),
+            'operation': new FormControl(searchCondition['operation'], [Validators.required]),
+            'searchCriteriaValue1': new FormControl(searchCondition['value1'], [Validators.required]),
+            'searchCriteriaValue2': new FormControl(searchCondition['value2'])
+          }));
+        }
       }
-    }
+    })
+
+    /*
+     if (this.searchCriteria) {
+       for (let searchCondition of this.searchCriteria.getConditions()) {
+         this.getSearchCriteriaArray().push(new FormGroup({
+           'criteria': new FormControl(searchCondition['fieldName'], [Validators.required]),
+           'operation': new FormControl(searchCondition['operation'], [Validators.required]),
+           'searchCriteriaValue1': new FormControl(searchCondition['value1'], [Validators.required]),
+           'searchCriteriaValue2': new FormControl(searchCondition['value2'])
+         }));
+       }
+     }
+     */
   }
 
   isFormValid(): boolean {
@@ -54,8 +74,6 @@ export class SearchFilterComponent implements OnInit {
   }
 
   onSubmit() {
-
-
     let searchCriteriasFromForm = this.searchForm.value['searchCriterias'];
 
     let searchConditions = searchCriteriasFromForm.map((control: any) => {
@@ -69,7 +87,8 @@ export class SearchFilterComponent implements OnInit {
     this.searchCriteria = new SearchCriteria(searchConditions);
 
     //This is used to pass search criteria to the employee list component
-    this.employeeService.searchCriteriaEmitter.next(this.searchCriteria);
+    //this.employeeService.searchCriteriaEmitter.next(this.searchCriteria);
+    this.store.dispatch(new SearchFilterActions.ApplySearchFilter(this.searchCriteria))
     this.closeDialog.emit(true);
 
   }
@@ -96,7 +115,8 @@ export class SearchFilterComponent implements OnInit {
     this.getControls().splice(0, count);
     this.searchForm.reset();
     //This is used to pass search criteria to the employee list component
-    this.employeeService.searchCriteriaEmitter.next(null);
+    this.store.dispatch(new SearchFilterActions.ClearSearchFilter())
+    //this.employeeService.searchCriteriaEmitter.next(null);
     this.closeDialog.emit(true);
 
   }
@@ -107,7 +127,8 @@ export class SearchFilterComponent implements OnInit {
     if (count === 1) {
       this.onClearCriteria();
     }
-    this.getControls().splice(index, 1);
+    (<FormArray>this.searchForm.get('searchCriterias')).removeAt(index);
+
   }
 
 }

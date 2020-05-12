@@ -18,7 +18,7 @@ import { tap, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class EmployeeService {
-  searchCriteriaEmitter = new Subject<SearchCriteria>();
+
 
   constructor(
     private http: HttpClient
@@ -28,7 +28,7 @@ export class EmployeeService {
   getAllEmployeesPageable(pageable: Pageable, searchCriteria: SearchCriteria): Observable<EmployeePageable> {
 
     if (searchCriteria) {
-      console.log('Search done using criteria ');
+      // console.log('Search done using criteria ');
     }
     let pageableParams = new HttpParams();
     pageableParams = pageableParams.append('page', String(pageable.pageNumber));

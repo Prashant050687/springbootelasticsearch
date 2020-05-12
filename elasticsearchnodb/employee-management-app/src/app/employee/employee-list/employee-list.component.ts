@@ -12,6 +12,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SearchCriteria } from 'src/app/shared/models/search.criteria';
 import { Subscription } from 'rxjs';
 
+import { Store } from '@ngrx/store';
+import * as fromApp from '../../store/app.reducer';
+import * as SearchFilterActions from '../../search-filter/store/search-filter.actions'
+
 @Component({
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
@@ -31,18 +35,24 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
 
 
   constructor(private employeeService: EmployeeService, private router: Router,
-    private ngxLoader: NgxUiLoaderService, private modalService: NgbModal
+    private ngxLoader: NgxUiLoaderService, private modalService: NgbModal,
+    private store: Store<fromApp.AppState>
   ) { }
 
   ngOnInit(): void {
     this.ngxLoader.start();
-    this.subscription = this.employeeService.searchCriteriaEmitter.subscribe((searchCriteria: SearchCriteria) => {
-      this.searchCriteria = searchCriteria;
+    /*  this.subscription = this.employeeService.searchCriteriaEmitter.subscribe((searchCriteria: SearchCriteria) => {
+       this.searchCriteria = searchCriteria;
+       this.searchTriggered = true;
+       this.getEmployeeBasedonPageNumber(0);
+ 
+     }) */
+
+    this.subscription = this.store.select('searchFilter').subscribe(searchCriteriaState => {
+      this.searchCriteria = searchCriteriaState.searchCriteria;
       this.searchTriggered = true;
       this.getEmployeeBasedonPageNumber(0);
-
     })
-
     //Reload from first page
     if (!this.searchTriggered) {
       console.log('inside search not triggered')
