@@ -23,6 +23,7 @@
       <div class="col-12" formArrayName="searchCriterias">
         <div
           class="form-row pb-3"
+          [@list1]
           *ngFor="let criteria of getControls(); let i = index"
           [formGroupName]="i"
         >

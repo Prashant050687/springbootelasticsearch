@@ -28,7 +28,7 @@ import { AuthComponent } from './auth/auth.component';
 import { SpringDataTableModule } from './shared/spring-data-table/spring-data-table-module';
 import { StoreModule } from '@ngrx/store';
 import * as fromApp from './store/app.reducer';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -51,8 +51,9 @@ export function masterDataProviderFactory(provider: MasterDataLoaderService) {
     AuthComponent,
 
 
+
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, NgxUiLoaderModule, ReactiveFormsModule, NgbModule,
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule, NgxUiLoaderModule, ReactiveFormsModule, NgbModule,
     SpringDataTableModule, StoreModule.forRoot(fromApp.appReducer)],
   providers: [NgxUiLoaderService, MasterDataLoaderService,
     { provide: APP_INITIALIZER, useFactory: masterDataProviderFactory, deps: [MasterDataLoaderService], multi: true },

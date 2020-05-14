@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
-import { EmployeeDTO } from '../employee/models/employee.model';
+
 import { SearchCriteria } from '../shared/models/search.criteria';
 import { SearchCondition } from '../shared/models/search.condition';
 import { EmployeeService } from '../employee/service/employee.service';
@@ -8,12 +8,38 @@ import { EmployeeService } from '../employee/service/employee.service';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
 import * as SearchFilterActions from './store/search-filter.actions'
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 
 @Component({
   selector: 'app-search-filter',
   templateUrl: './search-filter.component.html',
-  styleUrls: ['./search-filter.component.css']
+  styleUrls: ['./search-filter.component.css'],
+  animations: [
+
+    trigger('list1', [
+      state('in', style({
+        opacity: 1,
+        transform: 'translateX(0)'
+      })),
+      transition('void => *', [
+        style({
+          opacity: 0,
+          transform: 'translateY(-100px)'
+        }),
+        animate(300)
+      ]),
+      transition('* => void', [
+        animate(300, style({
+          transform: 'translateX(100px)',
+          opacity: 0
+        }))
+      ])
+    ]),
+
+
+  ]
+
 })
 export class SearchFilterComponent implements OnInit {
 

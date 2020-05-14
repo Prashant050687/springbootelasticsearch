@@ -34,15 +34,19 @@
       </tr>
     </tbody>
   </table>
-  <div class="row pl-3">
-    <div class="col-4 pl-0">
-      <!-- <p *ngIf="data?.content">Total Records: {{ data.totalElements }}</p> -->
+
+  <!-- <div class="row pl-2"> -->
+  <!-- <div class="col pl-1 align-items-start">
       <span *ngIf="data?.content" class="badge badge-dark"
         >Total Records: {{ data.totalElements }}</span
       >
-    </div>
-    <div class="col-8">
+    </div> -->
+  <div class="row">
+    <div class="pl-1 mx-auto">
       <pagination-controls
+        responsive="true"
+        previousLabel="Prev"
+        nextLabel="Next"
         (pageChange)="pageChanged($event)"
       ></pagination-controls>
     </div>
