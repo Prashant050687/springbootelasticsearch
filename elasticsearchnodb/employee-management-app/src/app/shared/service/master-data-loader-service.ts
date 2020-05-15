@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { ContractTypeDTO } from 'src/app/employee/models/contract.type.model';
 import { Injectable } from '@angular/core';
-import { resolve } from 'dns';
 import { ErrorService } from 'src/app/error/error.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class MasterDataLoaderService {
@@ -18,7 +18,7 @@ export class MasterDataLoaderService {
 
     load() {
         const promise = new Promise((resolve, reject) => {
-            const url = 'http://localhost:7001/employee/contracTypes';
+            const url = environment.backendBaseUrl + 'employee/contracTypes';
             //const url = 'assets/contract.type.data.json';
 
             //convert observable to promise
