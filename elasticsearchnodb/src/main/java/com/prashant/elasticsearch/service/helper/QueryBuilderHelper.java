@@ -36,7 +36,7 @@ public class QueryBuilderHelper {
         queryStringBuilder = queryStringQuery("*" + QueryParser.escape(condition.getValue1()) + "*").field(condition.getFieldName());
         break;
       case STARTS_WITH:
-        queryStringBuilder = QueryBuilders.prefixQuery(condition.getFieldName(), QueryParser.escape(condition.getValue1()));
+        queryStringBuilder = QueryBuilders.prefixQuery(condition.getFieldName().toLowerCase(), QueryParser.escape(condition.getValue1()));
         break;
       case REGEX:
         queryStringBuilder = QueryBuilders.regexpQuery(condition.getFieldName(), condition.getValue1());
