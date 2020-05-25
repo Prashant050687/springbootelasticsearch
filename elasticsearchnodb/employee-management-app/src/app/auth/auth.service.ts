@@ -21,7 +21,7 @@ export interface AuthResponseData {
 })
 export class AuthService {
 
-  private apiKey: string = 'AIzaSyBDb9ZfGRlW468JEluu7l7vd4yZ9qPC70M';
+  private apiKey: string = 'test';
 
   token: string = null;
 
